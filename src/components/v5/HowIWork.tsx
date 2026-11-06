@@ -2,7 +2,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-import { Face } from '../avatar/Portrait';
+
+const ICONS = [ShieldCheck, Puzzle, Users, Shuffle, ScanSearch, Sprout];
+import { ShieldCheck, Puzzle, Users, Shuffle, ScanSearch, Sprout } from 'lucide-react';
 import { gsap, SplitWords, useGsap } from '../ui/motion';
 import { howIWork } from '@/data/v4';
 
@@ -39,7 +41,15 @@ export default function HowIWork() {
                     <motion.span key={q.n} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '-100%' }} transition={{ duration: 0.5, ease }} className="block font-display text-7xl font-semibold leading-none text-n-accentdark">{q.n}</motion.span>
                   </AnimatePresence>
                 </div>
-                <Face size={72} className="ring-2 ring-n-accentdark/40" />
+                <div className="relative grid h-[76px] w-[76px] shrink-0 place-items-center">
+                  <svg viewBox="0 0 76 76" className="absolute inset-0 -rotate-90" aria-hidden>
+                    <circle cx="38" cy="38" r="34" stroke="#2B3245" strokeWidth="3" fill="none" />
+                    <motion.circle key={q.n} cx="38" cy="38" r="34" stroke="#8EA0FF" strokeWidth="3" fill="none" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: (active + 1) / howIWork.qualities.length }} transition={{ duration: 0.7, ease }} />
+                  </svg>
+                  <AnimatePresence mode="wait">
+                    {(() => { const I = ICONS[active]; return <motion.span key={q.n} initial={{ scale: 0.4, rotate: -30, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }} exit={{ scale: 0.4, rotate: 30, opacity: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 18 }} className="grid h-12 w-12 place-items-center rounded-full bg-n-accent text-white"><I size={22} /></motion.span>; })()}
+                  </AnimatePresence>
+                </div>
               </div>
               <AnimatePresence mode="wait">
                 <motion.div key={q.n} className="relative" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.35, ease }}>

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useRef, useState, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Mail, Linkedin, Github, Download, ArrowUpRight, Send, Loader2, CheckCircle2, AlertCircle, MapPin, ArrowUp, Copy, Check } from 'lucide-react';
 import { SplitWords } from '../ui/motion';
@@ -26,12 +26,9 @@ export default function Contact5() {
   const [errors, setErrors] = useState<ContactErrors>({});
   const [status, setStatus] = useState<Status>('idle');
   const [msg, setMsg] = useState('');
-  const [configured, setConfigured] = useState<boolean | null>(null);
   const [copied, setCopied] = useState(false);
   const sending = useRef(false);
   const honeypot = useRef<HTMLInputElement>(null);
-
-  useEffect(() => { fetch('/api/contact').then((r) => r.json()).then((j) => setConfigured(Boolean(j.configured))).catch(() => setConfigured(null)); }, []);
 
   const set = (k: keyof typeof empty) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setV((s) => ({ ...s, [k]: e.target.value }));
@@ -118,7 +115,6 @@ export default function Contact5() {
                       className="inline-flex min-h-[50px] items-center gap-2 rounded-full bg-n-ink px-7 font-medium text-white transition-colors hover:bg-n-accent disabled:cursor-wait disabled:opacity-70">
                       {status === 'sending' ? <><Loader2 size={17} className="animate-spin" />Sending…</> : <><Send size={16} />Send message</>}
                     </motion.button>
-                    {configured === false && status !== 'error' && <p className="text-xs text-n-muted">The form is not connected to email yet. You can email me directly at <a className="font-medium text-n-accent underline underline-offset-2" href={`mailto:${v4.email}`}>{v4.email}</a>.</p>}
                   </div>
                 </motion.form>
               )}

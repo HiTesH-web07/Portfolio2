@@ -7,11 +7,16 @@ import { validateContact, type ContactInput } from '@/lib/validate-contact';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-// Settings (environment variables, never in code):
+// Settings (environment variables, never in code). Either:
+//   CONTACT_WEBHOOK_URL (+ CONTACT_WEBHOOK_SECRET) — a viaSocket flow that sends the email via Gmail
+// or:
 //   SMTP_HOST, SMTP_PORT (default 465), SMTP_USER, SMTP_PASS  — e.g. Gmail with an app password
 //   CONTACT_TO (default: Hitesh's email), SMTP_FROM (default: SMTP_USER)
 const TO = process.env.CONTACT_TO || 'hiteshahuja633@gmail.com';
-const configured = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+const hook = () => process.env.CONTACT_WEBHOOK_URL;
+const smtp = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+const configured = () => Boolean(hook() || smtp());
+const GENERIC = 'Your message could not be sent right now. Please try again in a moment.';
 const recent = new Map<string, number>(); // duplicate guard: same content within 10 minutes
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
@@ -19,7 +24,8 @@ const oneLine = (s: string) => s.replace(/[\r\n]+/g, ' ').trim();
 
 export async function POST(req: Request) {
   if (!configured()) {
-    return NextResponse.json({ error: 'The contact form is not connected to email yet. Please email hiteshahuja633@gmail.com directly.', code: 'not_configured' }, { status: 503 });
+    console.error('contact: no CONTACT_WEBHOOK_URL or SMTP settings');
+    return NextResponse.json({ error: GENERIC }, { status: 503 });
   }
   const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim() || 'anon';
   if (!limit(`contact:${ip}`, 5, 60 * 60_000).ok) return NextResponse.json({ error: 'Too many messages in a short time. Please try again later.' }, { status: 429 });
@@ -38,6 +44,18 @@ export async function POST(req: Request) {
   if (recent.has(key)) return NextResponse.json({ ok: true, duplicate: true });
 
   try {
+    if (hook()) {
+      const r = await fetch(hook()!, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ secret: process.env.CONTACT_WEBHOOK_SECRET || '', name, email, subject, message, to: TO }),
+        signal: AbortSignal.timeout(20_000),
+      });
+      const j = await r.json().catch(() => ({} as { ok?: boolean }));
+      if (!r.ok || j.ok !== true) throw new Error(`webhook ${r.status} ${JSON.stringify(j).slice(0, 200)}`);
+      recent.set(key, now);
+      return NextResponse.json({ ok: true });
+    }
     const port = Number(process.env.SMTP_PORT || 465);
     const transport = nodemailer.createTransport({ host: process.env.SMTP_HOST, port, secure: port === 465, auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } });
     await transport.sendMail({
@@ -52,7 +70,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error('contact mail failed', (e as Error).message);
-    return NextResponse.json({ error: 'Your message could not be sent right now. Please try again, or email hiteshahuja633@gmail.com directly.' }, { status: 502 });
+    return NextResponse.json({ error: GENERIC }, { status: 502 });
   }
 }
 

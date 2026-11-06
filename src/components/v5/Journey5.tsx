@@ -2,7 +2,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { GraduationCap, Briefcase, Building2, Sparkles, ArrowRight, Check } from 'lucide-react';
-import { Portrait } from '../avatar/Portrait';
 import { gsap, SplitWords, useGsap } from '../ui/motion';
 import { journey5, type Scene5 } from '@/data/v4';
 
@@ -26,6 +25,85 @@ function Win({ title, children, className = '', dark = true }: { title: string; 
 
 const K = ({ c, children }: { c: string; children: React.ReactNode }) => <span style={{ color: c }}>{children}</span>;
 const kw = '#C792EA', fn = '#82AAFF', str = '#C3E88D', cm = '#8A94AA', num = '#F78C6C';
+
+
+// ---- animated left-side visuals, one per chapter (each tied to real facts) ----
+function SkillPath() {
+  const steps = [['C', 'first programs'], ['C++', 'problem solving'], ['DSA', 'patterns and complexity'], ['DBMS', 'data modelling'], ['Web dev', 'HTML, CSS, JavaScript'], ['React · Next.js', 'modern frameworks']];
+  return (
+    <div className="absolute left-7 top-7 w-[240px]">
+      <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#A7B0C2]">learning path</p>
+      <div className="relative mt-4">
+        <svg aria-hidden className="absolute left-[9px] top-2" width="2" height={steps.length * 64 - 40}>
+          <motion.line x1="1" y1="0" x2="1" y2={steps.length * 64 - 40} stroke="#4A5FF0" strokeWidth="2" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.6, ease }} />
+        </svg>
+        {steps.map(([k, v], i) => (
+          <motion.div key={k} className="relative flex h-16 items-start gap-4" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 + i * 0.22, duration: 0.5, ease }}>
+            <span className={`mt-1 grid h-5 w-5 shrink-0 place-items-center rounded-full ${i === steps.length - 1 ? 'bg-[#4A5FF0]' : 'border-2 border-[#4A5FF0] bg-[#151923]'}`}>{i === steps.length - 1 && <span className="h-1.5 w-1.5 rounded-full bg-white" />}</span>
+            <span><span className="block text-[14px] font-semibold text-[#EEF1F6]">{k}</span><span className="block text-[11.5px] text-[#A7B0C2]">{v}</span></span>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PerfMeter() {
+  // the one measured result from the internship: frontend 18% faster
+  const R = 70, C = 2 * Math.PI * R, pct = 18;
+  const [n, setN] = useState(0);
+  useEffect(() => { let v = 0; const id = setInterval(() => { v += 1; setN(v); if (v >= pct) clearInterval(id); }, 55); return () => clearInterval(id); }, []);
+  return (
+    <div className="absolute left-7 top-7 w-[200px]">
+      <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-[#A7B0C2]">frontend performance</p>
+      <div className="relative mt-4 h-[170px] w-[170px]">
+        <svg viewBox="0 0 170 170" className="h-full w-full -rotate-90" aria-hidden>
+          <circle cx="85" cy="85" r={R} stroke="#2B3245" strokeWidth="12" fill="none" />
+          <motion.circle cx="85" cy="85" r={R} stroke="#5BC17F" strokeWidth="12" fill="none" strokeLinecap="round" strokeDasharray={C} initial={{ strokeDashoffset: C }} animate={{ strokeDashoffset: C * (1 - (pct * 3) / 100) }} transition={{ duration: 1.1, ease }} />
+        </svg>
+        <div className="absolute inset-0 grid place-items-center text-center"><div><p className="text-4xl font-semibold text-[#EEF1F6]">+{n}%</p><p className="text-[11px] text-[#A7B0C2]">faster</p></div></div>
+      </div>
+      <div className="mt-4 grid grid-cols-2 gap-2 text-center">
+        {[['15+', 'components'], ['20+', 'REST APIs']].map(([a, b], i) => <motion.div key={b} {...pop(0.6 + i * 0.15, 8)} className="rounded-xl border border-white/10 bg-white/5 py-2"><p className="text-lg font-semibold text-[#EEF1F6]">{a}</p><p className="text-[10.5px] text-[#A7B0C2]">{b}</p></motion.div>)}
+      </div>
+    </div>
+  );
+}
+
+function OAuthFlow() {
+  const steps = ['Authorize', 'Exchange code', 'Store token', 'Call the API', 'Refresh when expired'];
+  const [k, setK] = useState(0);
+  useEffect(() => { const id = setInterval(() => setK((x) => (x + 1) % steps.length), 1100); return () => clearInterval(id); }, [steps.length]);
+  return (
+    <div className="absolute bottom-6 left-6 w-[190px] rounded-xl border border-white/10 bg-white/[0.04] p-3.5">
+      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#A7B0C2]">oauth 2.0 flow</p>
+      <ol className="mt-2.5 grid gap-1.5">
+        {steps.map((t, i) => (
+          <li key={t} className={`flex items-center gap-2 rounded-lg px-2 py-1 text-[11.5px] transition-colors duration-300 ${i === k ? 'bg-[#4A5FF0] text-white' : i < k ? 'text-[#D6DEEB]' : 'text-[#6B7489]'}`}>
+            <span className={`grid h-4 w-4 shrink-0 place-items-center rounded-full text-[9px] ${i <= k ? 'bg-white/20' : 'border border-white/20'}`}>{i < k ? '✓' : i + 1}</span>{t}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+function AgentLoop() {
+  const nodes = ['Plan', 'Act', 'Observe'];
+  return (
+    <div className="absolute bottom-10 left-8 h-[190px] w-[190px]">
+      <motion.svg viewBox="0 0 190 190" className="absolute inset-0" aria-hidden animate={{ rotate: 360 }} transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}>
+        <circle cx="95" cy="95" r="70" stroke="#8EA0FF" strokeOpacity=".35" strokeWidth="2" strokeDasharray="6 8" fill="none" />
+        <circle cx="95" cy="25" r="5" fill="#8EA0FF" />
+      </motion.svg>
+      {nodes.map((t, i) => {
+        const a = (-90 + i * 120) * (Math.PI / 180);
+        return <motion.span key={t} {...pop(0.3 + i * 0.15, 6)} className="absolute -translate-x-1/2 -translate-y-1/2 rounded-lg border border-white/10 bg-[#0F131C] px-2.5 py-1 text-[11px] font-medium text-[#D6DEEB]" style={{ left: 95 + Math.cos(a) * 70, top: 95 + Math.sin(a) * 70 }}>{t}</motion.span>;
+      })}
+      <div className="absolute inset-0 grid place-items-center"><span className="text-center text-[11px] leading-tight text-[#A7B0C2]">AI agent<br />loop</span></div>
+    </div>
+  );
+}
 
 function Foundation() {
   return (
@@ -54,9 +132,7 @@ function Foundation() {
           </div>
         </Win>
       </motion.div>
-      <div className="absolute left-6 top-6 flex flex-wrap gap-1.5">
-        {['C', 'C++', 'DSA', 'HTML/CSS', 'React'].map((t, k) => <motion.span key={t} {...pop(0.2 + k * 0.08, 8)} className="rounded-md border border-white/10 bg-white/5 px-2 py-1 font-mono text-[11px] text-[#A7B0C2]">{t}</motion.span>)}
-      </div>
+      <SkillPath />
     </>
   );
 }
@@ -95,6 +171,7 @@ function Product() {
         <div className="text-[#5BC17F]">200 OK · 48ms</div>
         <div className="text-[#6B7489]">[{'{'} id, name, price {'}'}, …]</div>
       </motion.div>
+      <PerfMeter />
       <p className="absolute bottom-3 right-6 text-[10px] text-[#A7B0C2]/70">Illustration of the work, not a product screenshot</p>
     </>
   );
@@ -146,6 +223,7 @@ function Engineering() {
           </span>
         ))}
       </motion.div>
+      <OAuthFlow />
       <p className="absolute bottom-[58px] right-6 text-[10px] text-[#A7B0C2]/70">Illustrative code, not viaSocket source</p>
     </>
   );
@@ -155,6 +233,7 @@ function Next() {
   const tools = ['Asana', 'Slack', 'Calendar', 'APIs'];
   return (
     <>
+      <AgentLoop />
       <motion.div {...pop(0.1)} className="absolute right-6 top-6 w-[320px]">
         <Win title="ai-assistant" dark={false}>
           <div className="space-y-2 p-3 text-[11.5px]">
@@ -193,9 +272,6 @@ function Stage({ i }: { i: number }) {
         <AnimatePresence mode="wait">
           <motion.div key={c.id} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.25 } }}>
             <Scene />
-            <motion.div className={`absolute bottom-0 left-3 ${c.scene === 'engineering' || c.scene === 'product' ? 'w-[200px]' : 'w-[250px]'}`} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, ease }}>
-              <Portrait sizes="260px" alt={`Illustrated portrait of Hitesh: ${c.title}`} className="drop-shadow-[0_20px_40px_rgba(0,0,0,.5)]" />
-            </motion.div>
           </motion.div>
         </AnimatePresence>
       </div>
