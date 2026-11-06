@@ -130,11 +130,12 @@ export const nav4 = [
 
 // ---------- v5: Journey of a Builder (Hitesh's own chapter text) ----------
 export type Scene5 = 'foundation' | 'product' | 'engineering' | 'next';
-export const journey5: { id: string; num: string; title: string; org: string; role: string; kind: string; story: string[]; points?: string[]; scene: Scene5; pose: Pose; expression: 'smile' | 'joy' | 'focus' | 'curious' | 'calm'; outfit: 'student' | 'intern' | 'engineer' | 'jacket'; closing?: string }[] = [
+export const journey5: { id: string; num: string; title: string; org: string; role: string; kind: string; story: string[]; meta?: string; points?: string[]; scene: Scene5; pose: Pose; expression: 'smile' | 'joy' | 'focus' | 'curious' | 'calm'; outfit: 'student' | 'intern' | 'engineer' | 'jacket'; closing?: string }[] = [
   {
     id: 'foundation', num: '01', title: 'The Foundation', org: 'Medi-Caps University', role: 'B.Tech in Computer Science', kind: 'Education',
     scene: 'foundation', pose: 'laptop', expression: 'focus', outfit: 'student',
-    story: ['I started with the fundamentals: programming, C and C++, and problem-solving. As I explored web development, I became interested in turning ideas into applications through frontend technologies and modern web frameworks.'],
+    story: ['My journey began at Medi-Caps University, where I built a strong foundation in Computer Science through academics, programming, data structures, algorithms, database management and software engineering. Along the way, I explored different areas of technology, strengthened my problem-solving skills and developed an interest in building applications through web development and modern frameworks.'],
+    meta: 'B.Tech in Computer Science · CGPA: 7.92/10 · 2022–2026',
   },
   {
     id: 'product', num: '02', title: 'My First Real Product', org: 'Think Debug · Kulies', role: 'Frontend Developer Intern', kind: 'Internship',

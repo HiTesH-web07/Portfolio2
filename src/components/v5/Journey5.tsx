@@ -257,6 +257,7 @@ export default function Journey5() {
                     <h3 data-in className="mt-2 text-3xl font-semibold tracking-tight">{c.title}</h3>
                     <p data-in className="mt-1 text-sm font-medium text-n-ink/80">{c.role} · <span className="text-n-muted">{c.org}</span></p>
                     {c.story.map((p, k) => <p key={k} data-in className="mt-4 leading-relaxed text-n-muted">{p}</p>)}
+                    {c.meta && <p data-in className="mt-4 font-semibold text-n-ink">{c.meta}</p>}
                     {c.points && <ul data-in className="mt-4 grid gap-1.5 text-sm">{c.points.map((p) => <li key={p} className="flex gap-2"><Check size={15} className="mt-0.5 shrink-0 text-n-accent" />{p}</li>)}</ul>}
                     {c.closing && <p data-in className="mt-6 text-xl font-semibold tracking-tight text-n-ink">{c.closing}</p>}
                   </div>
