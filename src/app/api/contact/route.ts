@@ -80,6 +80,9 @@ export async function POST(req: Request) {
   }
 }
 
+// Web3Forms only accepts submissions from a browser on its free plan, so the page sends
+// directly. Its access key is designed to be public (it can only deliver to Hitesh's inbox);
+// it is served from the environment so it never lives in the repository.
 export function GET() {
-  return NextResponse.json({ configured: configured() });
+  return NextResponse.json({ configured: configured(), web3forms: w3f() || null });
 }

@@ -43,6 +43,25 @@ export default function Contact5() {
     if (Object.keys(errs).length) { document.getElementById(`c-${Object.keys(errs)[0]}`)?.focus(); return; }
     sending.current = true; setStatus('sending'); setMsg('');
     try {
+      const cfg = await fetch('/api/contact').then((r) => r.json()).catch(() => ({}));
+      if (cfg.web3forms) {
+        const subject = v.subject.trim();
+        const r = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: cfg.web3forms,
+            subject: `Portfolio: ${subject || `Message from ${v.name.trim()}`}`.slice(0, 180),
+            from_name: 'Hitesh Ahuja Portfolio',
+            replyto: v.email.trim(),
+            name: v.name.trim(), email: v.email.trim(), 'Subject (from form)': subject || '(none)', message: v.message.trim(),
+            botcheck: honeypot.current?.value ? true : '',
+          }),
+        });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || j.success !== true) throw new Error('Your message could not be sent right now. Please try again in a moment.');
+        setStatus('sent'); setV(empty); return;
+      }
       const r = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...v, website: honeypot.current?.value ?? '' }) });
       const j = await r.json().catch(() => ({}));
       if (!r.ok) { if (j.fields) setErrors(j.fields); throw new Error(j.error || 'Your message could not be sent. Please try again.'); }
