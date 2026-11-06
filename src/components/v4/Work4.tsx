@@ -43,7 +43,7 @@ function Details({ w, onCase }: { w: WorkItem; onCase: () => void }) {
   const item = { hidden: { opacity: 0, y: 14 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } } };
   return (
     <motion.div key={w.id} initial="hidden" animate="show" variants={{ show: { transition: { staggerChildren: 0.06, delayChildren: 0.1 } } }}>
-      <motion.span variants={item} className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${w.badge === 'Work contribution' ? 'bg-[#0F1D16] text-[#A6E35A]' : 'bg-[#A6E35A] text-[#0F1D16]'}`}>{w.badge}</motion.span>
+      <motion.span variants={item} className={`inline-block rounded-full px-3 py-1 text-xs font-semibold ${w.badge === 'Internship project' ? 'bg-[#0F1D16] text-[#A6E35A]' : 'bg-[#A6E35A] text-[#0F1D16]'}`}>{w.badge}</motion.span>
       <motion.h3 variants={item} className="mt-4 text-3xl font-semibold tracking-tight sm:text-[2.1rem]">{w.name}</motion.h3>
       <motion.p variants={item} className="mt-3 leading-relaxed text-[#4A524C]">{w.description}</motion.p>
       <motion.p variants={item} className="mt-4 text-sm leading-relaxed"><span className="mr-1.5 font-semibold text-[#356A18]">Problem:</span><span className="text-[#4A524C]">{w.problem}</span></motion.p>

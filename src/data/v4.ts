@@ -16,7 +16,7 @@ export const v4 = {
 };
 
 export type WorkItem = {
-  id: string; name: string; badge: 'Featured' | 'Independent project' | 'Personal project' | 'Work contribution';
+  id: string; name: string; badge: 'Featured' | 'Independent project' | 'Personal project' | 'Internship project';
   description: string; problem: string; implemented: string[]; more?: string[]; stack: string[];
   image: string | null; url?: string; live: string | null; code: string | null; note?: string;
 };
@@ -41,7 +41,7 @@ export const work: WorkItem[] = [
     image: '/projects/mtac.webp', url: 'meeting-to-action-closer.embarko.app', live: 'https://meeting-to-action-closer.embarko.app', code: null
   },
   {
-    id: 'kulies', name: 'Kulies', badge: 'Work contribution',
+    id: 'kulies', name: 'Kulies', badge: 'Internship project',
     description: 'A B2B2C e-commerce platform. I contributed to the frontend during my Think Debug internship; the product was built by the whole team.',
     problem: 'Shoppers need fast, consistent product, cart and pricing flows on every screen size.',
     implemented: ['Built 15+ responsive React components', 'Integrated 20+ REST APIs with Axios; state with Redux Toolkit and Context API', 'Improved frontend performance by 18%'],
@@ -66,8 +66,8 @@ export const journey4: Chapter4[] = [
   { id: 'learn', num: '01', title: 'Learning to Build', where: 'Medi-Caps University · B.Tech CSE', scene: 'study', pose: 'laptop', expression: 'focus',
     paras: ['I started with C and C++ and spent most of my practice on data structures and algorithms.', 'Then I moved to the web: small React and Next.js apps to understand components, state and routing. I graduated in 2026 with a CGPA of 7.92.'],
     objects: ['C++', 'DSA', 'Web Dev'] },
-  { id: 'products', num: '02', title: 'Building Real Products', where: 'Think Debug · Kulies', scene: 'product', pose: 'think', expression: 'focus',
-    paras: ['My first professional codebase: Kulies, a B2B2C e-commerce app, with a six-member team shipping every week.', 'I built React components, wired REST APIs and fixed UI issues, and learned to measure performance before optimising.'],
+  { id: 'products', num: '02', title: 'Building Real Products', where: 'Think Debug internship · Kulies', scene: 'product', pose: 'think', expression: 'focus',
+    paras: ['My internship at Think Debug was my first real codebase: Kulies, a B2B2C e-commerce app, with a six-member team shipping every week.', 'I built React components, wired REST APIs and fixed UI issues, and learned to measure performance before optimising.'],
     objects: ['React components', 'REST APIs', 'Product cards'] },
   { id: 'systems', num: '03', title: 'Understanding Systems', where: 'Walkover · viaSocket', scene: 'systems', pose: 'explore', expression: 'curious',
     paras: ['As an Integration Solution Engineer I work on product development and integrations for viaSocket, a no-code automation platform.', 'I build integration modules and workflows: OAuth 2.0, webhooks, pagination and data mapping, and I debug APIs against live endpoints.'],
@@ -85,7 +85,7 @@ export const experience4 = [
     stack: ['Next.js', 'React', 'Node.js', 'JavaScript', 'REST APIs', 'OAuth 2.0', 'Postman', 'Git'],
   },
   {
-    id: 'thinkdebug', company: 'Think Debug', parent: 'Kulies', role: 'Frontend Developer Intern', when: 'Feb 2025 – Apr 2025', where: 'Indore · On-site', mark: 't',
+    id: 'thinkdebug', company: 'Think Debug', parent: 'Internship · Kulies', role: 'Frontend Developer Intern', when: 'Feb 2025 – Apr 2025', where: 'Indore · On-site · Internship', mark: 't',
     highlights: ['Built 15+ responsive React components', 'Integrated 20+ REST APIs and improved performance by 18%', 'Fixed 30+ UI/UX bugs on the Kulies platform'],
     more: ['Six-member development team, weekly sprints and code reviews'],
     stack: ['React', 'Redux Toolkit', 'JavaScript', 'Tailwind CSS', 'Axios', 'Git'],
