@@ -6,10 +6,10 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 // Same face in every scene; only the outfit changes with the chapter.
 export const OUTFITS = {
-  jacket: { hoodie: '#4E5240', hoodieLight: '#666B51', hoodieDark: '#3A3D2F', tee: '#1E1D1B' },   // olive bomber from his photos
-  student: { hoodie: '#4B5568', hoodieLight: '#646F85', hoodieDark: '#363E4E', tee: '#E9ECF2' },  // grey college hoodie
-  intern: { hoodie: '#2F4A7A', hoodieLight: '#46639A', hoodieDark: '#22375C', tee: '#F1F3F7' },   // denim-blue overshirt
-  engineer: { hoodie: '#252B3A', hoodieLight: '#363E52', hoodieDark: '#191E29', tee: '#4A5FF0' }, // dark jacket, accent tee
+  jacket: { hoodie: '#5A6532', hoodieLight: '#727E43', hoodieDark: '#424A23', tee: '#EEEAE1', hoodieStyle: true, headphones: true }, // olive hoodie, white tee, headphones (reference)
+  student: { hoodie: '#4B5568', hoodieLight: '#646F85', hoodieDark: '#363E4E', tee: '#E9ECF2', hoodieStyle: true, headphones: false },  // grey college hoodie
+  intern: { hoodie: '#2F4A7A', hoodieLight: '#46639A', hoodieDark: '#22375C', tee: '#F1F3F7', hoodieStyle: false, headphones: false },   // denim-blue overshirt
+  engineer: { hoodie: '#252B3A', hoodieLight: '#363E52', hoodieDark: '#191E29', tee: '#4A5FF0', hoodieStyle: false, headphones: true }, // dark jacket, accent tee
 };
 export type Outfit = keyof typeof OUTFITS;
 const Ids = createContext({ hood: 'avh', skin: 'avs', hair: 'avr', o: OUTFITS.jacket });
@@ -24,8 +24,8 @@ const DEFAULT_EXPR: Record<Pose, Expression> = {
 const C = {
   // Drawn from Hitesh's photos: warm light skin, dark hair with short sides and volume on top,
   // a trimmed beard with moustache, an olive bomber jacket over a black tee.
-  hoodie: '#4E5240', hoodieLight: '#666B51', hoodieDark: '#3A3D2F', skin: '#E2B38F', skinLight: '#F1CFB2', skinShade: '#C8936E',
-  hair: '#17120F', hairLight: '#3D2E25', beard: '#2B1F18', tee: '#1E1D1B', ink: '#24231F', cream: '#F1EBDD', clay: '#E8C6B8', sage: '#D9E4DC', lid: '#E4DDCD', lidEdge: '#C9C0AC', mouth: '#6B3326',
+  hoodie: '#4E5240', hoodieLight: '#666B51', hoodieDark: '#3A3D2F', skin: '#DFA47A', skinLight: '#EFC19B', skinShade: '#C0855C',
+  hair: '#2A1C14', hairLight: '#5B3F2D', beard: '#33231A', tee: '#1E1D1B', ink: '#24231F', cream: '#F1EBDD', clay: '#E8C6B8', sage: '#D9E4DC', lid: '#E4DDCD', lidEdge: '#C9C0AC', mouth: '#6B3326',
 };
 
 const LS = { x: 110, y: 304 }; // left shoulder (viewer's left)
@@ -177,7 +177,7 @@ function Face({ expr, look }: { expr: Expression; look: { x: number; y: number }
   return (
     <AnimatePresence mode="popLayout" initial={false}>
       <motion.g key={expr} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
-        <g stroke={C.hair} strokeWidth={5} strokeLinecap="round" fill="none">
+        <g stroke={C.hair} strokeWidth={6.5} strokeLinecap="round" fill="none">
           <path d={brows[expr][0]} /><path d={brows[expr][1]} />
         </g>
         {eyesHappy ? (
@@ -185,7 +185,7 @@ function Face({ expr, look }: { expr: Expression; look: { x: number; y: number }
             <path d="M150 158 q8 -9 16 0" /><path d="M194 158 q8 -9 16 0" />
           </g>
         ) : (
-          <g className="av-eyes">
+          <g transform="translate(180 158) scale(1.2) translate(-180 -158)"><g className="av-eyes">
             <path d="M147 157 C151 149 165 149 169 157 C165 163 151 163 147 157 Z" fill="#FBF7F2" />
             <path d="M191 157 C195 149 209 149 213 157 C209 163 195 163 191 157 Z" fill="#FBF7F2" />
             <path d="M147 156 C151 149 165 149 169 156" stroke={C.ink} strokeWidth={2.4} strokeLinecap="round" fill="none" />
@@ -199,7 +199,7 @@ function Face({ expr, look }: { expr: Expression; look: { x: number; y: number }
               <circle cx={160.2} cy={154.6} r={1.9} fill="#fff" />
               <circle cx={204.2} cy={154.6} r={1.9} fill="#fff" />
             </g></g>
-          </g>
+          </g></g>
         )}
         {mouth[expr]}
       </motion.g>
@@ -232,9 +232,30 @@ export default function Avatar({
         <rect x={166} y={204} width={28} height={60} rx={13} fill={C.skinShade} />
         <path d="M152 262 Q180 280 208 262 L216 400 L144 400 Z" fill={O.tee} />
         <path d="M158 264 Q180 278 202 264" stroke={C.skinShade} strokeWidth={3} fill="none" opacity={0.6} />
-        <path d="M154 258 L132 270 L150 308 L163 270 Z" fill={O.hoodieLight} />
-        <path d="M206 258 L228 270 L210 308 L197 270 Z" fill={O.hoodieLight} />
-        <g stroke={O.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M150 308 L146 400" /><path d="M210 308 L214 400" /></g>
+        {O.hoodieStyle ? (
+          <g>
+            {/* hood folded round the neck, open zip, drawstrings */}
+            <path d="M128 268 C126 246 152 236 180 236 C208 236 234 246 232 268 C222 254 202 248 180 248 C158 248 138 254 128 268 Z" fill={O.hoodieDark} />
+            <path d="M134 266 C138 280 150 290 160 292 L156 270 Z" fill={O.hoodieLight} /><path d="M226 266 C222 280 210 290 200 292 L204 270 Z" fill={O.hoodieLight} />
+            <g stroke={O.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M154 292 L150 400" /><path d="M206 292 L210 400" /></g>
+            <g stroke="#E9E4D8" strokeWidth={2} strokeLinecap="round"><path d="M166 276 L164 312" /><path d="M194 276 L196 312" /></g>
+            <rect x={161.5} y={311} width={5} height={8} rx={2} fill="#C9C2B2" /><rect x={193.5} y={311} width={5} height={8} rx={2} fill="#C9C2B2" />
+          </g>
+        ) : (
+          <g>
+            <path d="M154 258 L132 270 L150 308 L163 270 Z" fill={O.hoodieLight} />
+            <path d="M206 258 L228 270 L210 308 L197 270 Z" fill={O.hoodieLight} />
+            <g stroke={O.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M150 308 L146 400" /><path d="M210 308 L214 400" /></g>
+          </g>
+        )}
+        {O.headphones && (
+          <g>
+            <path d="M142 250 C140 286 220 286 218 250" stroke="#1B1C20" strokeWidth={7} fill="none" strokeLinecap="round" />
+            <ellipse cx={140} cy={252} rx={15} ry={19} fill="#1B1C20" /><ellipse cx={140} cy={252} rx={9} ry={12} fill="#2E3036" />
+            <ellipse cx={220} cy={252} rx={15} ry={19} fill="#1B1C20" /><ellipse cx={220} cy={252} rx={9} ry={12} fill="#2E3036" />
+            <ellipse cx={135} cy={246} rx={3} ry={5} fill="#fff" opacity={0.12} /><ellipse cx={215} cy={246} rx={3} ry={5} fill="#fff" opacity={0.12} />
+          </g>
+        )}
         <rect x={100} y={340} width={26} height={5} rx={2.5} fill={O.hoodieDark} opacity={0.5} />
         <rect x={234} y={340} width={26} height={5} rx={2.5} fill={O.hoodieDark} opacity={0.5} />
 
@@ -247,9 +268,9 @@ export default function Avatar({
         {/* head: drawn from Hitesh's photos */}
         <defs>
           <radialGradient id={`${ids.hair}b`} cx=".5" cy=".95" r=".75">
-            <stop offset="0" stopColor={C.beard} stopOpacity={0.95} />
-            <stop offset=".55" stopColor={C.beard} stopOpacity={0.8} />
-            <stop offset="1" stopColor={C.beard} stopOpacity={0.45} />
+            <stop offset="0" stopColor={C.beard} stopOpacity={1} />
+            <stop offset=".6" stopColor={C.beard} stopOpacity={0.95} />
+            <stop offset="1" stopColor={C.beard} stopOpacity={0.55} />
           </radialGradient>
           <linearGradient id={`${ids.hair}f`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor={C.hair} stopOpacity={0.95} />
@@ -273,16 +294,19 @@ export default function Avatar({
         <path d="M124 124 C118 92 132 66 160 56 C182 48 214 48 234 60 C250 70 256 90 248 118 C242 106 230 100 216 98 C198 96 180 97 166 100 C150 104 136 112 124 124 Z" fill={`url(#${ids.hair})`} />
         <path d="M130 112 C126 84 146 60 178 54 C206 50 230 58 244 76 C228 70 208 68 190 72 C168 76 150 88 142 106 Z" fill={C.hair} />
         <path d="M142 106 C136 98 136 88 142 82 C146 92 156 98 170 99 Z" fill={C.hair} />
+        <path d="M134 98 C134 62 168 38 206 40 C236 42 254 62 252 90 C244 74 222 62 196 62 C170 62 148 74 140 100 Z" fill={`url(#${ids.hair})`} />
+        <path d="M150 80 C162 56 196 46 226 54" stroke={C.hairLight} strokeWidth={4} strokeLinecap="round" fill="none" opacity={0.7} />
         <g stroke={C.hairLight} strokeWidth={3} strokeLinecap="round" fill="none" opacity={0.75}>
           <path d="M140 98 C144 78 164 62 192 58" /><path d="M158 94 C166 76 186 66 214 64" />
           <path d="M180 94 C190 80 208 72 232 74" /><path d="M202 97 C214 86 228 84 244 90" />
         </g>
 
-        {/* short trimmed beard: light along the jaw, fuller at the chin, cheeks clear */}
-        <path d="M121 150 C121 190 138 222 180 229 C222 222 239 190 239 150 C235 150 234 154 233 160 C230 184 220 200 206 207 C198 211 190 212 180 212 C170 212 162 211 154 207 C140 200 130 184 127 160 C126 154 125 150 121 150 Z" fill={`url(#${ids.hair}b)`} opacity={0.8} />
-        {/* moustache, split in the middle */}
-        <path d="M161 187 C166 180 174 179 179 182 C176 186 168 188 161 187 Z" fill={C.beard} />
-        <path d="M199 187 C194 180 186 179 181 182 C184 186 192 188 199 187 Z" fill={C.beard} />
+        {/* full, trimmed beard covering the jaw and chin, cheeks clear (reference) */}
+        <path d="M122 156 C122 194 139 225 180 231 C221 225 238 194 238 156 C234 176 225 192 212 199 C202 204 192 203 180 203 C168 203 158 204 148 199 C135 192 126 176 122 156 Z" fill={`url(#${ids.hair}b)`} opacity={0.9} />
+        {/* moustache joining the beard */}
+        <path d="M158 190 C162 180 174 178 180 182 C186 178 198 180 202 190 C194 186 186 186 180 188 C174 186 166 186 158 190 Z" fill={C.beard} />
+        {/* lips sit inside the beard */}
+        
         {/* blush and nose */}
         <ellipse cx={145} cy={172} rx={10} ry={5} fill="#E58D74" opacity={0.14} />
         <ellipse cx={215} cy={172} rx={10} ry={5} fill="#E58D74" opacity={0.14} />
