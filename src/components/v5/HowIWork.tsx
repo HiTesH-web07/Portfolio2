@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
-import Avatar from '../avatar/Avatar';
+import { Face } from '../avatar/Portrait';
 import { gsap, SplitWords, useGsap } from '../ui/motion';
 import { howIWork } from '@/data/v4';
 
@@ -39,7 +39,7 @@ export default function HowIWork() {
                     <motion.span key={q.n} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '-100%' }} transition={{ duration: 0.5, ease }} className="block font-display text-7xl font-semibold leading-none text-n-accentdark">{q.n}</motion.span>
                   </AnimatePresence>
                 </div>
-                <div className="w-24 shrink-0 -mb-7 -mr-2 self-end"><Avatar pose="think" expression="focus" outfit="engineer" float={false} title="Illustration of Hitesh thinking" /></div>
+                <Face size={72} className="ring-2 ring-n-accentdark/40" />
               </div>
               <AnimatePresence mode="wait">
                 <motion.div key={q.n} className="relative" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.35, ease }}>

@@ -2,7 +2,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { GraduationCap, Briefcase, Building2, Sparkles, ArrowRight, Check } from 'lucide-react';
-import Avatar from '../avatar/Avatar';
+import { Portrait } from '../avatar/Portrait';
 import { gsap, SplitWords, useGsap } from '../ui/motion';
 import { journey5, type Scene5 } from '@/data/v4';
 
@@ -193,8 +193,8 @@ function Stage({ i }: { i: number }) {
         <AnimatePresence mode="wait">
           <motion.div key={c.id} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.25 } }}>
             <Scene />
-            <motion.div className={`absolute bottom-0 ${c.scene === 'engineering' ? 'left-2 w-[250px]' : 'left-4 w-[290px]'}`} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, ease }}>
-              <Avatar pose={c.pose} expression={c.expression} outfit={c.outfit} title={`Illustration of Hitesh: ${c.title}`} />
+            <motion.div className={`absolute bottom-0 left-3 ${c.scene === 'engineering' || c.scene === 'product' ? 'w-[200px]' : 'w-[250px]'}`} initial={{ y: 30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6, ease }}>
+              <Portrait sizes="260px" alt={`Illustrated portrait of Hitesh: ${c.title}`} className="drop-shadow-[0_20px_40px_rgba(0,0,0,.5)]" />
             </motion.div>
           </motion.div>
         </AnimatePresence>

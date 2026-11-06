@@ -2,16 +2,12 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUp, RotateCcw, ArrowUpRight, X } from 'lucide-react';
-import Avatar from '../avatar/Avatar';
+import { Face as PortraitFace } from '../avatar/Portrait';
 import { useChat } from './ChatContext';
 import { askSuggestions, projects } from '@/data/content';
 
 export function Face({ size = 40 }: { size?: number }) {
-  return (
-    <span className="grid shrink-0 place-items-center overflow-hidden rounded-full bg-n-accentsoft" style={{ width: size, height: size }}>
-      <Avatar pose="wave" expression="smile" crop float={false} className="h-full w-full" title="Ask Hitesh assistant" />
-    </span>
-  );
+  return <PortraitFace size={size} className="ring-1 ring-black/5" />;
 }
 
 export default function ChatBox({ className = '', onClose, autoFocus = false, onOpenCase }: { className?: string; onClose?: () => void; autoFocus?: boolean; onOpenCase?: (id: string) => void }) {

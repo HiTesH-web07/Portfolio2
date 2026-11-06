@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Sparkles, ShieldCheck } from 'lucide-react';
-import Avatar from '../avatar/Avatar';
+import { Portrait } from '../avatar/Portrait';
 import ChatBox from '../chat/ChatBox';
 import { SplitWords } from '../ui/motion';
 
@@ -21,9 +21,9 @@ export default function AskContact4() {
             <li className="flex gap-3"><Sparkles size={17} className="mt-0.5 shrink-0 text-n-accentdark" />An AI assistant, not Hitesh in person. It answers using my verified resume and projects.</li>
             <li className="flex gap-3"><ShieldCheck size={17} className="mt-0.5 shrink-0 text-n-accentdark" />It does not invent experience or numbers. If it does not know something, it says so.</li>
           </ul>
-          <motion.div className="relative mt-8 w-56 self-start lg:mt-auto" initial={{ y: 40, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
-            <div aria-hidden className="absolute inset-x-2 bottom-0 top-10 rounded-t-[999px] bg-[#26304A] ring-1 ring-n-accentdark/30" />
-            <Avatar pose="wave" expression="smile" className="relative" title="Illustration of Hitesh waving hello" />
+          <motion.div className="relative mt-8 w-60 self-start lg:mt-auto" initial={{ y: 40, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+            <Portrait sizes="240px" alt="Illustrated portrait of Hitesh Ahuja" />
+            <motion.span aria-hidden className="absolute -right-3 top-6 grid h-12 w-12 place-items-center rounded-full bg-white text-2xl shadow-lift" initial={{ scale: 0 }} animate={inView ? { scale: 1 } : {}} transition={{ delay: 0.6, type: 'spring', stiffness: 300, damping: 16 }}><span className="hand-wave inline-block">👋</span></motion.span>
           </motion.div>
         </div>
 

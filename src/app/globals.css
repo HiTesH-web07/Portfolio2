@@ -98,3 +98,6 @@
 @keyframes caret { 50% { opacity: 0; } }
 .caret { animation: caret 1.1s steps(1) infinite; }
 @media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
+@keyframes hand-wave { 0%, 60%, 100% { transform: rotate(0deg); } 10%, 30% { transform: rotate(16deg); } 20%, 40% { transform: rotate(-8deg); } }
+.hand-wave { transform-origin: 70% 75%; animation: hand-wave 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .hand-wave { animation: none; } }
