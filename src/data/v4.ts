@@ -126,6 +126,7 @@ export const nav4 = [
   { id: 'skills', label: 'Skills' },
   { id: 'how', label: 'How I Work' },
   { id: 'ask', label: 'Ask Hitesh' },
+  { id: 'contact', label: 'Contact' },
 ];
 
 // ---------- v5: Journey of a Builder (Hitesh's own chapter text) ----------

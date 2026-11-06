@@ -7,6 +7,7 @@ import Experience4 from '@/components/v4/Experience4';
 import Skills4 from '@/components/v4/Skills4';
 import HowIWork from '@/components/v5/HowIWork';
 import AskContact4 from '@/components/v4/AskContact4';
+import Contact5 from '@/components/v5/Contact5';
 import { ChatProvider } from '@/components/chat/ChatContext';
 import { AvatarDefs } from '@/components/avatar/Avatar';
 
@@ -24,6 +25,7 @@ export default function Page() {
         <Skills4 />
         <HowIWork />
         <AskContact4 />
+        <Contact5 />
       </main>
     </ChatProvider>
   );

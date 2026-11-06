@@ -28,8 +28,8 @@ const C = {
   hair: '#2A1C14', hairLight: '#5B3F2D', beard: '#33231A', tee: '#1E1D1B', ink: '#24231F', cream: '#F1EBDD', clay: '#E8C6B8', sage: '#D9E4DC', lid: '#E4DDCD', lidEdge: '#C9C0AC', mouth: '#6B3326',
 };
 
-const LS = { x: 110, y: 304 }; // left shoulder (viewer's left)
-const RS = { x: 250, y: 304 };
+const LS = { x: 98, y: 306 }; // left shoulder (viewer's left)
+const RS = { x: 262, y: 306 };
 
 function Arm({ d, hand, front = false }: { d: string; hand: [number, number]; front?: boolean }) {
   const id = useContext(Ids); const O = id.o;
@@ -42,7 +42,7 @@ function Arm({ d, hand, front = false }: { d: string; hand: [number, number]; fr
   const cuffX = hand[0] - dx * 13, cuffY = hand[1] - dy * 13;
   return (
     <g>
-      <path d={d} stroke={`url(#${id.hood})`} strokeWidth={26} strokeLinecap="round" fill="none" />
+      <path d={d} stroke={`url(#${id.hood})`} strokeWidth={31} strokeLinecap="round" fill="none" />
       <path d={d} stroke="#fff" strokeOpacity={0.07} strokeWidth={8} strokeLinecap="round" fill="none" transform={`translate(${r(-px * 5)} ${r(-py * 5)})`} />
       <path d={d} stroke={O.hoodieDark} strokeOpacity={front ? 0.3 : 0.2} strokeWidth={2} strokeLinecap="round" fill="none" />
       <line x1={r(cuffX + px * 11)} y1={r(cuffY + py * 11)} x2={r(cuffX - px * 11)} y2={r(cuffY - py * 11)} stroke={O.hoodieDark} strokeWidth={6} strokeLinecap="round" />
@@ -219,25 +219,28 @@ export default function Avatar({
   const lookIn = pose === 'explore' ? { x: 3, y: 1 } : look;
   const t = { duration: reduce ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] as const };
   return (
-    <Ids.Provider value={ids}><svg viewBox={crop ? '88 38 184 196' : '0 0 360 400'} className={className} role="img" aria-label={title ?? `Illustration of Hitesh, ${pose}`}>
+    <Ids.Provider value={ids}><svg viewBox={crop ? '88 38 184 196' : '0 0 360 450'} className={className} role="img" aria-label={title ?? `Illustration of Hitesh, ${pose}`}>
       <defs>
         <linearGradient id={ids.hood} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={O.hoodieLight} /><stop offset="1" stopColor={O.hoodie} /></linearGradient>
         <radialGradient id={ids.skin} cx=".38" cy=".32" r=".8"><stop offset="0" stopColor={C.skinLight} /><stop offset="1" stopColor={C.skin} /></radialGradient>
         <linearGradient id={ids.hair} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={C.hairLight} /><stop offset=".6" stopColor={C.hair} /></linearGradient>
       </defs>
-      <ellipse cx={180} cy={394} rx={130} ry={7} fill={C.ink} opacity={0.08} />
+      <ellipse cx={180} cy={446} rx={130} ry={5} fill={C.ink} opacity={0.08} />
       <g className={float && !crop ? 'av-float' : undefined}>
         {/* body: olive bomber jacket, open over a black tee */}
-        <path d="M86 400 C86 314 118 264 180 260 C242 264 274 314 274 400 Z" fill={`url(#${ids.hood})`} />
+        <path d="M62 450 C62 352 72 300 104 280 C128 266 152 260 180 260 C208 260 232 266 256 280 C288 300 298 352 298 450 Z" fill={`url(#${ids.hood})`} />
+        <path d="M104 282 C94 300 90 330 92 360" stroke={O.hoodieDark} strokeOpacity={0.35} strokeWidth={2} fill="none" /><path d="M256 282 C266 300 270 330 268 360" stroke={O.hoodieDark} strokeOpacity={0.35} strokeWidth={2} fill="none" />
         <rect x={166} y={204} width={28} height={60} rx={13} fill={C.skinShade} />
-        <path d="M152 262 Q180 280 208 262 L216 400 L144 400 Z" fill={O.tee} />
+        <path d="M150 262 Q180 282 210 262 L220 450 L140 450 Z" fill={O.tee} />
         <path d="M158 264 Q180 278 202 264" stroke={C.skinShade} strokeWidth={3} fill="none" opacity={0.6} />
         {O.hoodieStyle ? (
           <g>
             {/* hood folded round the neck, open zip, drawstrings */}
             <path d="M128 268 C126 246 152 236 180 236 C208 236 234 246 232 268 C222 254 202 248 180 248 C158 248 138 254 128 268 Z" fill={O.hoodieDark} />
             <path d="M134 266 C138 280 150 290 160 292 L156 270 Z" fill={O.hoodieLight} /><path d="M226 266 C222 280 210 290 200 292 L204 270 Z" fill={O.hoodieLight} />
-            <g stroke={O.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M154 292 L150 400" /><path d="M206 292 L210 400" /></g>
+            <g stroke={O.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M154 292 L148 450" /><path d="M206 292 L212 450" /></g>
+            {/* front pouch pocket */}
+            <path d="M114 372 L246 372 L256 430 L104 430 Z" fill={O.hoodieDark} opacity={0.22} /><path d="M114 372 L246 372" stroke={O.hoodieDark} strokeWidth={2} opacity={0.5} />
             <g stroke="#E9E4D8" strokeWidth={2} strokeLinecap="round"><path d="M166 276 L164 312" /><path d="M194 276 L196 312" /></g>
             <rect x={161.5} y={311} width={5} height={8} rx={2} fill="#C9C2B2" /><rect x={193.5} y={311} width={5} height={8} rx={2} fill="#C9C2B2" />
           </g>
@@ -245,7 +248,7 @@ export default function Avatar({
           <g>
             <path d="M154 258 L132 270 L150 308 L163 270 Z" fill={O.hoodieLight} />
             <path d="M206 258 L228 270 L210 308 L197 270 Z" fill={O.hoodieLight} />
-            <g stroke={O.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M150 308 L146 400" /><path d="M210 308 L214 400" /></g>
+            <g stroke={O.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M150 308 L144 450" /><path d="M210 308 L216 450" /></g>
           </g>
         )}
         {O.headphones && (
@@ -256,8 +259,8 @@ export default function Avatar({
             <ellipse cx={135} cy={246} rx={3} ry={5} fill="#fff" opacity={0.12} /><ellipse cx={215} cy={246} rx={3} ry={5} fill="#fff" opacity={0.12} />
           </g>
         )}
-        <rect x={100} y={340} width={26} height={5} rx={2.5} fill={O.hoodieDark} opacity={0.5} />
-        <rect x={234} y={340} width={26} height={5} rx={2.5} fill={O.hoodieDark} opacity={0.5} />
+        <rect x={92} y={352} width={26} height={5} rx={2.5} fill={O.hoodieDark} opacity={0.5} />
+        <rect x={242} y={352} width={26} height={5} rx={2.5} fill={O.hoodieDark} opacity={0.5} />
 
         <AnimatePresence initial={false}>
           <motion.g key={`b-${pose}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 6 }} transition={t}>{L.back}</motion.g>

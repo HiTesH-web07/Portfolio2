@@ -189,7 +189,7 @@ function Stage({ i }: { i: number }) {
   return (
     <div ref={box} className="relative h-full w-full overflow-hidden rounded-[1.75rem] bg-[radial-gradient(120%_90%_at_70%_0%,#26304A_0%,#1A2030_45%,#151923_100%)]">
       <div aria-hidden className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(#EEF1F6_1px,transparent_1px),linear-gradient(90deg,#EEF1F6_1px,transparent_1px)] [background-size:40px_40px]" />
-      <div className="absolute left-1/2 top-1/2" style={{ width: W, height: H, transform: `translate(-50%, -50%) scale(${s})` }}>
+      <div className="absolute bottom-0 left-1/2" style={{ width: W, height: H, transform: `translateX(-50%) scale(${s})`, transformOrigin: 'bottom center' }}>
         <AnimatePresence mode="wait">
           <motion.div key={c.id} className="absolute inset-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, transition: { duration: 0.25 } }}>
             <Scene />

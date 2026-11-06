@@ -78,10 +78,6 @@ export default function Hero4() {
             <div aria-hidden className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle_at_50%_45%,#2E3A5C_0%,#1E2538_55%,transparent_72%)]" />
             <div data-avatar className="absolute inset-x-[6%] bottom-0 top-[4%]"><Avatar pose="laptop" expression="smile" look={look} className="h-full w-full" title="Illustration of Hitesh at his laptop" /></div>
             <div data-tile aria-hidden className="drift absolute left-[4%] top-[16%] grid h-20 w-20 place-items-center rounded-2xl border border-n-accentdark/40 bg-n-accent/10 font-mono text-2xl font-semibold text-n-accentdark backdrop-blur" style={{ ['--t' as string]: '7s' }}>{'</>'}</div>
-            <div data-tile className="absolute bottom-[10%] right-0 rounded-2xl border border-white/10 bg-n-ink/80 px-4 py-3 text-sm shadow-lift backdrop-blur">
-              <p className="flex items-center gap-2 text-[11px] uppercase tracking-[0.14em] text-n-fg/55"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-n-accent" />Currently</p>
-              <p className="mt-1 font-medium">Product &amp; integrations · viaSocket</p>
-            </div>
           </div>
         </div>
       </div>

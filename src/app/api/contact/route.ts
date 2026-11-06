@@ -1,0 +1,61 @@
+import { NextResponse } from 'next/server';
+import { createHash } from 'node:crypto';
+import nodemailer from 'nodemailer';
+import { limit } from '@/lib/ai/rate-limit';
+import { validateContact, type ContactInput } from '@/lib/validate-contact';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+// Settings (environment variables, never in code):
+//   SMTP_HOST, SMTP_PORT (default 465), SMTP_USER, SMTP_PASS  — e.g. Gmail with an app password
+//   CONTACT_TO (default: Hitesh's email), SMTP_FROM (default: SMTP_USER)
+const TO = process.env.CONTACT_TO || 'hiteshahuja633@gmail.com';
+const configured = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
+const recent = new Map<string, number>(); // duplicate guard: same content within 10 minutes
+
+const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+const oneLine = (s: string) => s.replace(/[\r\n]+/g, ' ').trim();
+
+export async function POST(req: Request) {
+  if (!configured()) {
+    return NextResponse.json({ error: 'The contact form is not connected to email yet. Please email hiteshahuja633@gmail.com directly.', code: 'not_configured' }, { status: 503 });
+  }
+  const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim() || 'anon';
+  if (!limit(`contact:${ip}`, 5, 60 * 60_000).ok) return NextResponse.json({ error: 'Too many messages in a short time. Please try again later.' }, { status: 429 });
+
+  let body: Partial<ContactInput> & { website?: string };
+  try { body = await req.json(); } catch { return NextResponse.json({ error: 'Invalid request.' }, { status: 400 }); }
+  if (body.website) return NextResponse.json({ ok: true }); // honeypot: bots fill hidden fields
+
+  const errors = validateContact(body);
+  if (Object.keys(errors).length) return NextResponse.json({ error: 'Please fix the highlighted fields.', fields: errors }, { status: 422 });
+
+  const name = oneLine(body.name!), email = oneLine(body.email!), subject = oneLine(body.subject ?? ''), message = body.message!.trim();
+  const key = createHash('sha256').update(`${email}|${subject}|${message}`).digest('hex');
+  const now = Date.now();
+  for (const [k, t] of recent) if (now - t > 10 * 60_000) recent.delete(k);
+  if (recent.has(key)) return NextResponse.json({ ok: true, duplicate: true });
+
+  try {
+    const port = Number(process.env.SMTP_PORT || 465);
+    const transport = nodemailer.createTransport({ host: process.env.SMTP_HOST, port, secure: port === 465, auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } });
+    await transport.sendMail({
+      from: `"Portfolio contact" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      to: TO,
+      replyTo: `"${name.replace(/"/g, '')}" <${email}>`,
+      subject: `Portfolio: ${subject || `Message from ${name}`}`.slice(0, 180),
+      text: `From: ${name} <${email}>\nSubject: ${subject || '(none)'}\n\n${message}`,
+      html: `<p><b>From:</b> ${esc(name)} &lt;${esc(email)}&gt;<br><b>Subject:</b> ${esc(subject || '(none)')}</p><p style="white-space:pre-wrap">${esc(message)}</p>`,
+    });
+    recent.set(key, now);
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    console.error('contact mail failed', (e as Error).message);
+    return NextResponse.json({ error: 'Your message could not be sent right now. Please try again, or email hiteshahuja633@gmail.com directly.' }, { status: 502 });
+  }
+}
+
+export function GET() {
+  return NextResponse.json({ configured: configured() });
+}
