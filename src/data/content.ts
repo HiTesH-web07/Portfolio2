@@ -345,7 +345,7 @@ export const beyond = [
 export const askSuggestions = [
   'Why should we hire Hitesh?',
   'What does he build and automate at viaSocket?',
-  'What did he build at Think Debug?',
+  'What did he do at Think Debug?',
   'What is his full-stack skill set?',
   'Tell me about Meeting-to-Action Closer.',
   'What makes his engineering approach different?',

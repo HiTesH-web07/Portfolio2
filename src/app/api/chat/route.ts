@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { askGemini, AiError, type ChatMsg } from '@/lib/ai/gemini';
+import { askGemini, streamGemini, AiError, type ChatMsg } from '@/lib/ai/gemini';
 import { limit } from '@/lib/ai/rate-limit';
 import { buildKnowledge, SYSTEM_PROMPT } from '@/data/knowledge-base';
 import { projects } from '@/data/content';
@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 const SYSTEM = SYSTEM_PROMPT + buildKnowledge();
 const MAX_MSG = 600;
 const MAX_TURNS = 10;
-const ALIASES: Record<string, RegExp> = {
+const ALIASES: Record<string, RegExp> = { // kept for the non-streaming path
   cairn: /\bcairn\b/i,
   'meeting-to-action': /meeting[- ]to[- ]action/i,
   sensai: /\bsensai\b/i,
@@ -41,6 +41,16 @@ export async function POST(req: Request) {
   if (!messages.length || messages[messages.length - 1].role !== 'user') return NextResponse.json({ error: 'Ask me a question first.' }, { status: 400 });
   while (messages.length && messages[0].role === 'assistant') messages.shift();
 
+  // Streaming: the browser asks for it with ?stream=1
+  if (new URL(req.url).searchParams.get('stream') === '1') {
+    try {
+      const stream = await streamGemini(SYSTEM, messages);
+      return new Response(stream, { headers: { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store', 'X-Accel-Buffering': 'no' } });
+    } catch (e) {
+      const err = e instanceof AiError ? e : new AiError('The assistant could not answer right now.', 502);
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
+  }
   try {
     const reply = clean(await askGemini(SYSTEM, messages));
     const asked = messages[messages.length - 1].content;

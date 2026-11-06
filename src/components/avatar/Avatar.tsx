@@ -1,7 +1,7 @@
 'use client';
 // One character, many poses. Head, face and body are shared so proportions never drift;
 // each pose only swaps arms and props, and each expression only swaps brows, eyes and mouth.
-import { createContext, useContext, useId } from 'react';
+import { createContext, useContext } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
 const Ids = createContext({ hood: 'av-hood', skin: 'av-skin', hair: 'av-hair' });
@@ -202,8 +202,8 @@ export default function Avatar({
   pose, expression, look = { x: 0, y: 0 }, className = '', title, float = true, crop = false,
 }: { pose: Pose; expression?: Expression; look?: { x: number; y: number }; className?: string; title?: string; float?: boolean; crop?: boolean }) {
   const reduce = useReducedMotion();
-  const uid = useId().replace(/:/g, '');
-  const ids = { hood: `h${uid}`, skin: `s${uid}`, hair: `r${uid}` };
+  // fixed ids: every avatar draws identical gradients, and AvatarDefs keeps one copy always rendered
+  const ids = { hood: 'avh', skin: 'avs', hair: 'avr' };
   const expr = expression ?? DEFAULT_EXPR[pose];
   const L = layers(pose);
   const lookIn = pose === 'explore' ? { x: 3, y: 1 } : look;
@@ -286,4 +286,9 @@ export default function Avatar({
       </g>
     </svg></Ids.Provider>
   );
+}
+
+/** One always-rendered copy of the avatar's gradients and clip paths, so hidden avatars can still reference them. */
+export function AvatarDefs() {
+  return <div aria-hidden style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}><Avatar pose="wave" float={false} title="" /></div>;
 }

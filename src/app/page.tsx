@@ -1,33 +1,30 @@
-// Concise 7-section portfolio. Earlier versions: git tags v1-before-story and v2-story-journey.
-import Nav from '@/components/Nav';
+// v4: complete redesign. Earlier versions: branches archive/v1-before-story and archive/v2-story-journey.
+import Nav4 from '@/components/v4/Nav4';
+import Hero4 from '@/components/v4/Hero4';
+import Work4 from '@/components/v4/Work4';
+import Journey4 from '@/components/v4/Journey4';
+import Experience4 from '@/components/v4/Experience4';
+import Skills4 from '@/components/v4/Skills4';
+import Problem4 from '@/components/v4/Problem4';
+import AskContact4 from '@/components/v4/AskContact4';
 import { ChatProvider } from '@/components/chat/ChatContext';
-import ChatPanel from '@/components/chat/ChatPanel';
-import HeroA from '@/components/v3/HeroA';
-import JourneyFinal from '@/components/v3/JourneyFinal';
-import ExperienceCompact from '@/components/v3/ExperienceCompact';
-import WorkBands from '@/components/v3/WorkBands';
-import BeyondBuild from '@/components/v3/BeyondBuild';
-import SkillsCompact from '@/components/v3/SkillsCompact';
-import AskHitesh from '@/components/AskHitesh';
-import Contact from '@/components/Contact';
-import { v3nav } from '@/data/content';
+import { AvatarDefs } from '@/components/avatar/Avatar';
 
 export default function Page() {
   return (
     <ChatProvider>
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-bg">Skip to content</a>
-      <Nav items={v3nav} />
+      <AvatarDefs />
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-[#A6E35A] focus:px-4 focus:py-2 focus:text-[#0F1D16]">Skip to content</a>
+      <Nav4 />
       <main id="main">
-        <HeroA />
-        <JourneyFinal />
-        <ExperienceCompact />
-        <WorkBands />
-        <BeyondBuild />
-        <SkillsCompact />
-        <AskHitesh num="06" />
-        <Contact num="07" />
+        <Hero4 />
+        <Work4 />
+        <Journey4 />
+        <Experience4 />
+        <Skills4 />
+        <Problem4 />
+        <AskContact4 />
       </main>
-      <ChatPanel />
     </ChatProvider>
   );
 }

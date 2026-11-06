@@ -29,12 +29,11 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F1EBDD' },
-    { media: '(prefers-color-scheme: dark)', color: '#161915' },
+    { color: '#0B1510' },
   ],
 };
 
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){}})()`;
+const themeScript = `document.documentElement.dataset.theme='light'`;
 
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'Person', name: profile.name, jobTitle: profile.title,

@@ -2,6 +2,7 @@
 // One conversation shared by the Ask Hitesh section and the slide-in panel.
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { profile } from '@/data/content';
+import { projectsIn, tidy } from '@/lib/ai/projects';
 
 export type Msg = { id: number; role: 'user' | 'assistant'; content: string; projects?: string[]; error?: boolean };
 
@@ -27,13 +28,25 @@ export function ChatProvider({ children }: { children: React.ReactNode }) {
     const history = [...msgsRef.current.filter((m) => m.id !== 0 && !m.error), user];
     setMsgs((m) => [...m, user]);
     setBusy(true);
+    const id = nextId.current++;
     try {
-      const r = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history.map(({ role, content }) => ({ role, content })) }) });
-      const j = await r.json().catch(() => ({}));
-      if (!r.ok || !j.reply) throw new Error(j.error || 'The assistant could not answer right now.');
-      setMsgs((m) => [...m, { id: nextId.current++, role: 'assistant', content: j.reply, projects: j.projects }]);
+      const r = await fetch('/api/chat?stream=1', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: history.map(({ role, content }) => ({ role, content })) }) });
+      if (!r.ok || !r.body) { const j = await r.json().catch(() => ({})); throw new Error(j.error || 'The assistant could not answer right now.'); }
+      const reader = r.body.getReader(); const dec = new TextDecoder(); let text = '';
+      setMsgs((m) => [...m, { id, role: 'assistant', content: '' }]);
+      setBusy(false);
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        text += dec.decode(value, { stream: true });
+        const shown = tidy(text);
+        setMsgs((m) => m.map((x) => (x.id === id ? { ...x, content: shown } : x)));
+      }
+      if (!text.trim()) throw new Error('I could not find a good answer to that. Try asking about my projects or experience.');
+      const final = tidy(text);
+      setMsgs((m) => m.map((x) => (x.id === id ? { ...x, content: final, projects: projectsIn(final, question) } : x)));
     } catch (e) {
-      setMsgs((m) => [...m, { id: nextId.current++, role: 'assistant', content: `${(e as Error).message} You can always email ${profile.email}.`, error: true }]);
+      setMsgs((m) => [...m.filter((x) => !(x.id === id && !x.content)), { id: nextId.current++, role: 'assistant', content: `${(e as Error).message} You can always email ${profile.email}.`, error: true }]);
     } finally {
       setBusy(false);
     }

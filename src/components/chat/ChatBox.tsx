@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUp, RotateCcw, ArrowUpRight, X } from 'lucide-react';
 import Avatar from '../avatar/Avatar';
@@ -19,7 +19,7 @@ export default function ChatBox({ className = '', onClose, autoFocus = false, on
   const [text, setText] = useState('');
   const list = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLTextAreaElement>(null);
-  const inputId = useId();
+  const inputId = 'ask-input';
 
   useEffect(() => { list.current?.scrollTo({ top: list.current.scrollHeight, behavior: 'smooth' }); }, [msgs, busy]);
   useEffect(() => { if (autoFocus) setTimeout(() => input.current?.focus({ preventScroll: true }), 350); }, [autoFocus]);
