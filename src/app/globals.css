@@ -4,16 +4,16 @@
 
 /* Design tokens: warm editorial palette. Values are RGB triples so Tailwind can add alpha. */
 :root {
-  --bg: 241 235 221;       /* warm cream #F1EBDD */
+  --bg: 247 248 250;       /* #F7F8FA */
   --paper: 255 255 255;
-  --ink: 36 35 31;         /* charcoal #24231F */
-  --muted: 92 88 78;
-  --line: 214 205 186;
-  --forest: 45 58 46;      /* #2D3A2E */
-  --sage: 217 228 220;     /* #D9E4DC */
-  --clay: 232 198 184;     /* soft terracotta #E8C6B8 */
-  --accent: 45 58 46;
-  --on-accent: 241 235 221;
+  --ink: 21 25 35;         /* #151923 */
+  --muted: 102 112 133;    /* #667085 */
+  --line: 228 231 236;     /* #E4E7EC */
+  --forest: 32 38 53;      /* #202635 */
+  --sage: 238 241 255;     /* #EEF1FF accent tint */
+  --clay: 238 241 255;
+  --accent: 74 95 240;     /* #4A5FF0 */
+  --on-accent: 255 255 255;
   --ease: cubic-bezier(.22, 1, .36, 1);
   color-scheme: light;
 }
@@ -35,8 +35,8 @@
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body { @apply bg-bg text-ink font-sans antialiased; text-rendering: optimizeLegibility; overflow-x: hidden; }
   h1, h2, h3, h4 { @apply font-display; letter-spacing: -0.03em; }
-  ::selection { background: rgb(var(--clay)); color: rgb(36 35 31); }
-  :focus-visible { outline: 2px solid rgb(var(--ink)); outline-offset: 3px; border-radius: 6px; }
+  ::selection { background: #C9D1FF; color: #151923; }
+  :focus-visible { outline: 2px solid #4A5FF0; outline-offset: 3px; border-radius: 6px; }
   section[id] { scroll-margin-top: 5rem; }
 }
 

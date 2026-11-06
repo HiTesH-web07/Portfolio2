@@ -8,11 +8,11 @@ import { projects, caseStudies, type Project } from '@/data/content';
 import ArchDiagram from './story/ArchDiagram';
 
 const TONE: Record<Project['tone'], string> = {
-  forest: 'bg-[#2D3A2E] text-[#F1EBDD]',
-  sage: 'bg-[#D9E4DC] text-[#24231F]',
-  clay: 'bg-[#E8C6B8] text-[#24231F]',
-  paper: 'bg-[#FBF8F1] text-[#24231F]',
-  ink: 'bg-[#24231F] text-[#F1EBDD]',
+  forest: 'bg-n-ink text-n-fg',
+  sage: 'bg-n-accentsoft text-n-ink',
+  clay: 'bg-n-accentsoft text-n-ink',
+  paper: 'bg-n-card text-n-ink',
+  ink: 'bg-n-ink text-n-fg',
 };
 
 export function openCase(id: string) {
@@ -35,8 +35,8 @@ function Screen({ p, priority = false, sizes }: { p: Project; priority?: boolean
 
 function Tablet({ p, priority, sizes }: { p: Project; priority?: boolean; sizes: string }) {
   return (
-    <div className="rounded-[1.75rem] bg-[#24231F] p-2.5 shadow-lift sm:rounded-[2.25rem] sm:p-3">
-      <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] bg-[#FBF8F1] sm:rounded-[1.6rem]">
+    <div className="rounded-[1.75rem] bg-n-ink p-2.5 shadow-lift sm:rounded-[2.25rem] sm:p-3">
+      <div className="relative aspect-[16/10] overflow-hidden rounded-[1.25rem] bg-n-card sm:rounded-[1.6rem]">
         <Screen p={p} priority={priority} sizes={sizes} />
       </div>
     </div>
@@ -71,7 +71,7 @@ export function CaseStudy({ p, onClose }: { p: Project; onClose: () => void }) {
     <div><h4 className="eyebrow">{t}</h4><p className="mt-2 text-[17px] leading-relaxed">{b}</p></div>
   );
   return (
-    <motion.div className="fixed inset-0 z-[80] flex items-end justify-center bg-[#24231F]/50 backdrop-blur-sm sm:items-center sm:p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
+    <motion.div className="fixed inset-0 z-[80] flex items-end justify-center bg-n-ink/50 backdrop-blur-sm sm:items-center sm:p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
       <motion.div role="dialog" aria-modal="true" aria-labelledby="case-title" onClick={(e) => e.stopPropagation()}
         className="relative max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-t-[2rem] bg-bg shadow-lift sm:rounded-[2.5rem]"
         initial={{ y: 60, opacity: 0, scale: 0.98 }} animate={{ y: 0, opacity: 1, scale: 1 }} exit={{ y: 40, opacity: 0 }} transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}>
@@ -83,13 +83,13 @@ export function CaseStudy({ p, onClose }: { p: Project; onClose: () => void }) {
           <div className="mt-6"><Links p={p} /></div>
           <div className="mt-8"><Tablet p={p} sizes="(min-width: 900px) 800px, 100vw" /></div>
           {caseStudies[p.id] && (
-            <div className="mt-10 grid gap-8 rounded-3xl bg-[#F6F1E6] p-6 text-[#24231F] sm:grid-cols-2 sm:p-8">
+            <div className="mt-10 grid gap-8 rounded-3xl bg-n-bg p-6 text-n-ink sm:grid-cols-2 sm:p-8">
               <div>
-                <h4 className="eyebrow !text-[#5C584E]">{caseStudies[p.id].label === 'Work project' ? 'The challenge' : 'The gap I noticed'}</h4>
+                <h4 className="eyebrow !text-n-muted">{caseStudies[p.id].label === 'Work project' ? 'The challenge' : 'The gap I noticed'}</h4>
                 <p className="mt-3 font-serif text-2xl italic leading-snug">“{caseStudies[p.id].gap}”</p>
-                <span className="mt-4 inline-block rounded-full bg-[#E8C6B8] px-2.5 py-1 text-xs font-medium">{caseStudies[p.id].label}</span>
+                <span className="mt-4 inline-block rounded-full bg-n-accentsoft px-2.5 py-1 text-xs font-medium">{caseStudies[p.id].label}</span>
               </div>
-              <div><h4 className="eyebrow !text-[#5C584E]">How it is built</h4><div className="mt-3"><ArchDiagram arch={caseStudies[p.id].arch} side={caseStudies[p.id].side} /></div></div>
+              <div><h4 className="eyebrow !text-n-muted">How it is built</h4><div className="mt-3"><ArchDiagram arch={caseStudies[p.id].arch} side={caseStudies[p.id].side} /></div></div>
             </div>
           )}
           <div className="mt-10 grid gap-8 sm:grid-cols-2">
@@ -177,7 +177,7 @@ export default function Projects() {
               <div className="flex flex-1 flex-col p-4 pt-6">
                 <div className="flex items-center justify-between gap-3">
                   <h4 className="text-2xl font-semibold">{p.name}</h4>
-                  {p.status && <span className="rounded-full bg-[#E8C6B8] px-2.5 py-1 text-xs font-medium text-[#24231F]">{p.status}</span>}
+                  {p.status && <span className="rounded-full bg-n-accentsoft px-2.5 py-1 text-xs font-medium text-n-ink">{p.status}</span>}
                 </div>
                 <p className="mt-2 flex-1 leading-relaxed text-muted">{p.short}</p>
                 <ul className="mt-4 flex flex-wrap gap-2">{p.stack.slice(0, 4).map((s) => <li key={s} className="chip !text-xs">{s}</li>)}</ul>

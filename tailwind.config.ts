@@ -15,6 +15,22 @@ export default {
         clay: 'rgb(var(--clay) / <alpha-value>)',
         accent: 'rgb(var(--accent) / <alpha-value>)',
         onaccent: 'rgb(var(--on-accent) / <alpha-value>)',
+        // v5 design system: midnight ink, cool neutrals, one cobalt accent
+        n: {
+          ink: '#151923',        // primary dark sections, headings on light
+          ink2: '#202635',       // dark surfaces
+          ink3: '#2B3245',       // borders and raised surfaces on dark
+          bg: '#F7F8FA',         // main light background
+          card: '#FFFFFF',       // cards on light
+          line: '#E4E7EC',       // borders on light
+          muted: '#667085',      // secondary text on light
+          fg: '#EEF1F6',         // primary text on dark
+          fgmuted: '#A7B0C2',    // secondary text on dark
+          accent: '#4A5FF0',     // buttons, links, focus (white text 5.0:1)
+          accenthover: '#3D52DB',
+          accentdark: '#8EA0FF', // accent text on dark (7.2:1)
+          accentsoft: '#EEF1FF', // accent tint on light
+        },
       },
       fontFamily: {
         display: ['var(--font-geist)', 'system-ui', 'sans-serif'],

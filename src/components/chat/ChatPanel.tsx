@@ -34,12 +34,12 @@ export default function ChatPanel() {
     <AnimatePresence>
       {panelOpen && (
         <motion.div className="fixed inset-0 z-[90]" initial="hidden" animate="show" exit="hidden">
-          <motion.div aria-hidden onClick={closePanel} className="absolute inset-0 bg-[#24231F]/35 backdrop-blur-[3px]" variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }} transition={{ duration: 0.35 }} />
+          <motion.div aria-hidden onClick={closePanel} className="absolute inset-0 bg-n-ink/35 backdrop-blur-[3px]" variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }} transition={{ duration: 0.35 }} />
           <motion.div ref={panel} role="dialog" aria-modal="true" aria-label="Ask Hitesh, AI assistant"
             className="absolute inset-y-0 right-0 flex w-full flex-col p-0 sm:w-[440px] sm:p-3"
             variants={{ hidden: { x: '104%' }, show: { x: 0 } }} transition={{ type: 'spring', stiffness: 260, damping: 32 }}>
             <ChatBox className="h-full shadow-lift sm:rounded-[1.75rem] sm:border sm:border-line" onClose={closePanel} autoFocus onOpenCase={openCase} />
-            <p className="hidden pt-2 text-center text-xs text-[#F1EBDD] sm:block">AI answers can be imperfect. For anything important, email {profile.email}.</p>
+            <p className="hidden pt-2 text-center text-xs text-n-fg sm:block">AI answers can be imperfect. For anything important, email {profile.email}.</p>
           </motion.div>
         </motion.div>
       )}

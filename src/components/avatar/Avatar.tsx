@@ -4,7 +4,15 @@
 import { createContext, useContext } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 
-const Ids = createContext({ hood: 'av-hood', skin: 'av-skin', hair: 'av-hair' });
+// Same face in every scene; only the outfit changes with the chapter.
+export const OUTFITS = {
+  jacket: { hoodie: '#4E5240', hoodieLight: '#666B51', hoodieDark: '#3A3D2F', tee: '#1E1D1B' },   // olive bomber from his photos
+  student: { hoodie: '#4B5568', hoodieLight: '#646F85', hoodieDark: '#363E4E', tee: '#E9ECF2' },  // grey college hoodie
+  intern: { hoodie: '#2F4A7A', hoodieLight: '#46639A', hoodieDark: '#22375C', tee: '#F1F3F7' },   // denim-blue overshirt
+  engineer: { hoodie: '#252B3A', hoodieLight: '#363E52', hoodieDark: '#191E29', tee: '#4A5FF0' }, // dark jacket, accent tee
+};
+export type Outfit = keyof typeof OUTFITS;
+const Ids = createContext({ hood: 'avh', skin: 'avs', hair: 'avr', o: OUTFITS.jacket });
 import type { Pose } from '@/data/content';
 
 export type Expression = 'smile' | 'joy' | 'focus' | 'puzzled' | 'curious' | 'calm';
@@ -24,7 +32,7 @@ const LS = { x: 110, y: 304 }; // left shoulder (viewer's left)
 const RS = { x: 250, y: 304 };
 
 function Arm({ d, hand, front = false }: { d: string; hand: [number, number]; front?: boolean }) {
-  const id = useContext(Ids);
+  const id = useContext(Ids); const O = id.o;
   const n = (d.match(/-?\d+(\.\d+)?/g) ?? []).map(Number); // M x y Q cx cy ex ey
   const [cx, cy] = [n[2] ?? hand[0], n[3] ?? hand[1] - 1];
   let dx = hand[0] - cx, dy = hand[1] - cy; const len = Math.hypot(dx, dy) || 1; dx /= len; dy /= len;
@@ -36,8 +44,8 @@ function Arm({ d, hand, front = false }: { d: string; hand: [number, number]; fr
     <g>
       <path d={d} stroke={`url(#${id.hood})`} strokeWidth={26} strokeLinecap="round" fill="none" />
       <path d={d} stroke="#fff" strokeOpacity={0.07} strokeWidth={8} strokeLinecap="round" fill="none" transform={`translate(${r(-px * 5)} ${r(-py * 5)})`} />
-      <path d={d} stroke={C.hoodieDark} strokeOpacity={front ? 0.3 : 0.2} strokeWidth={2} strokeLinecap="round" fill="none" />
-      <line x1={r(cuffX + px * 11)} y1={r(cuffY + py * 11)} x2={r(cuffX - px * 11)} y2={r(cuffY - py * 11)} stroke={C.hoodieDark} strokeWidth={6} strokeLinecap="round" />
+      <path d={d} stroke={O.hoodieDark} strokeOpacity={front ? 0.3 : 0.2} strokeWidth={2} strokeLinecap="round" fill="none" />
+      <line x1={r(cuffX + px * 11)} y1={r(cuffY + py * 11)} x2={r(cuffX - px * 11)} y2={r(cuffY - py * 11)} stroke={O.hoodieDark} strokeWidth={6} strokeLinecap="round" />
       <ellipse cx={hand[0]} cy={hand[1]} rx={10} ry={12.5} fill={`url(#${id.skin})`} transform={`rotate(${ang} ${hand[0]} ${hand[1]})`} />
       <ellipse cx={r(hand[0] + px * 9 - dx * 2)} cy={r(hand[1] + py * 9 - dy * 2)} rx={4} ry={7} fill={C.skin} transform={`rotate(${r(ang + 25)} ${r(hand[0] + px * 9 - dx * 2)} ${r(hand[1] + py * 9 - dy * 2)})`} />
       <path d={`M${r(hand[0] - px * 7 + dx * 6)} ${r(hand[1] - py * 7 + dy * 6)} L${r(hand[0] + px * 5 + dx * 7)} ${r(hand[1] + py * 5 + dy * 7)}`} stroke={C.skinShade} strokeWidth={1.6} strokeLinecap="round" opacity={0.6} />
@@ -46,6 +54,7 @@ function Arm({ d, hand, front = false }: { d: string; hand: [number, number]; fr
 }
 
 function Laptop({ closing = false, error = false }: { closing?: boolean; error?: boolean }) {
+  const O = useContext(Ids).o;
   if (closing) {
     return (
       <g>
@@ -61,9 +70,9 @@ function Laptop({ closing = false, error = false }: { closing?: boolean; error?:
       {/* stickers: a stacked-stone mark and a code bracket */}
       <g transform="translate(206 318)">
         <rect x={0} y={0} width={40} height={40} rx={12} fill={C.sage} />
-        <ellipse cx={20} cy={29} rx={12} ry={4.5} fill={C.hoodie} />
-        <ellipse cx={20} cy={20} rx={8.5} ry={3.8} fill={C.clay} stroke={C.hoodie} strokeWidth={1.5} />
-        <ellipse cx={20} cy={12.5} rx={5} ry={3} fill={C.hoodie} />
+        <ellipse cx={20} cy={29} rx={12} ry={4.5} fill={O.hoodie} />
+        <ellipse cx={20} cy={20} rx={8.5} ry={3.8} fill={C.clay} stroke={O.hoodie} strokeWidth={1.5} />
+        <ellipse cx={20} cy={12.5} rx={5} ry={3} fill={O.hoodie} />
       </g>
       <rect x={108} y={280} width={38} height={22} rx={6} fill={C.ink} />
       <text x={127} y={296} textAnchor="middle" fontFamily="ui-monospace,monospace" fontSize={12} fill={C.cream}>{'</>'}</text>
@@ -79,7 +88,7 @@ function Laptop({ closing = false, error = false }: { closing?: boolean; error?:
 }
 
 
-function layers(pose: Pose): { back: React.ReactNode; front: React.ReactNode } {
+function layers(pose: Pose, O: (typeof OUTFITS)[Outfit]): { back: React.ReactNode; front: React.ReactNode } {
   switch (pose) {
     case 'laptop':
       return {
@@ -132,7 +141,7 @@ function layers(pose: Pose): { back: React.ReactNode; front: React.ReactNode } {
           <>
             <Arm d={`M${LS.x} ${LS.y} Q 46 232 74 150`} hand={[74, 146]} front />
             <Arm d={`M${RS.x} ${RS.y} Q 314 232 286 150`} hand={[286, 146]} front />
-            {[[40, 90, C.clay, 12], [318, 84, C.hoodieLight, -18], [60, 40, C.sage, 30], [300, 34, C.clay, 8], [180, 18, C.hoodieLight, -10]].map(([x, y, f, r], i) => (
+            {[[40, 90, C.clay, 12], [318, 84, O.hoodieLight, -18], [60, 40, C.sage, 30], [300, 34, C.clay, 8], [180, 18, O.hoodieLight, -10]].map(([x, y, f, r], i) => (
               <rect key={i} x={x as number} y={y as number} width={14} height={7} rx={2} fill={f as string} transform={`rotate(${r} ${x} ${y})`} />
             ))}
           </>
@@ -199,19 +208,20 @@ function Face({ expr, look }: { expr: Expression; look: { x: number; y: number }
 }
 
 export default function Avatar({
-  pose, expression, look = { x: 0, y: 0 }, className = '', title, float = true, crop = false,
-}: { pose: Pose; expression?: Expression; look?: { x: number; y: number }; className?: string; title?: string; float?: boolean; crop?: boolean }) {
+  pose, expression, look = { x: 0, y: 0 }, className = '', title, float = true, crop = false, outfit = 'jacket',
+}: { pose: Pose; expression?: Expression; look?: { x: number; y: number }; className?: string; title?: string; float?: boolean; crop?: boolean; outfit?: Outfit }) {
   const reduce = useReducedMotion();
   // fixed ids: every avatar draws identical gradients, and AvatarDefs keeps one copy always rendered
-  const ids = { hood: 'avh', skin: 'avs', hair: 'avr' };
+  const O = OUTFITS[outfit];
+  const ids = { hood: `avh-${outfit}`, skin: 'avs', hair: 'avr', o: O };
   const expr = expression ?? DEFAULT_EXPR[pose];
-  const L = layers(pose);
+  const L = layers(pose, OUTFITS[outfit]);
   const lookIn = pose === 'explore' ? { x: 3, y: 1 } : look;
   const t = { duration: reduce ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] as const };
   return (
     <Ids.Provider value={ids}><svg viewBox={crop ? '88 38 184 196' : '0 0 360 400'} className={className} role="img" aria-label={title ?? `Illustration of Hitesh, ${pose}`}>
       <defs>
-        <linearGradient id={ids.hood} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={C.hoodieLight} /><stop offset="1" stopColor={C.hoodie} /></linearGradient>
+        <linearGradient id={ids.hood} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor={O.hoodieLight} /><stop offset="1" stopColor={O.hoodie} /></linearGradient>
         <radialGradient id={ids.skin} cx=".38" cy=".32" r=".8"><stop offset="0" stopColor={C.skinLight} /><stop offset="1" stopColor={C.skin} /></radialGradient>
         <linearGradient id={ids.hair} x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor={C.hairLight} /><stop offset=".6" stopColor={C.hair} /></linearGradient>
       </defs>
@@ -220,13 +230,13 @@ export default function Avatar({
         {/* body: olive bomber jacket, open over a black tee */}
         <path d="M86 400 C86 314 118 264 180 260 C242 264 274 314 274 400 Z" fill={`url(#${ids.hood})`} />
         <rect x={166} y={204} width={28} height={60} rx={13} fill={C.skinShade} />
-        <path d="M152 262 Q180 280 208 262 L216 400 L144 400 Z" fill={C.tee} />
+        <path d="M152 262 Q180 280 208 262 L216 400 L144 400 Z" fill={O.tee} />
         <path d="M158 264 Q180 278 202 264" stroke={C.skinShade} strokeWidth={3} fill="none" opacity={0.6} />
-        <path d="M154 258 L132 270 L150 308 L163 270 Z" fill={C.hoodieLight} />
-        <path d="M206 258 L228 270 L210 308 L197 270 Z" fill={C.hoodieLight} />
-        <g stroke={C.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M150 308 L146 400" /><path d="M210 308 L214 400" /></g>
-        <rect x={100} y={340} width={26} height={5} rx={2.5} fill={C.hoodieDark} opacity={0.5} />
-        <rect x={234} y={340} width={26} height={5} rx={2.5} fill={C.hoodieDark} opacity={0.5} />
+        <path d="M154 258 L132 270 L150 308 L163 270 Z" fill={O.hoodieLight} />
+        <path d="M206 258 L228 270 L210 308 L197 270 Z" fill={O.hoodieLight} />
+        <g stroke={O.hoodieDark} strokeWidth={2.5} strokeLinecap="round"><path d="M150 308 L146 400" /><path d="M210 308 L214 400" /></g>
+        <rect x={100} y={340} width={26} height={5} rx={2.5} fill={O.hoodieDark} opacity={0.5} />
+        <rect x={234} y={340} width={26} height={5} rx={2.5} fill={O.hoodieDark} opacity={0.5} />
 
         <AnimatePresence initial={false}>
           <motion.g key={`b-${pose}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 6 }} transition={t}>{L.back}</motion.g>
@@ -290,5 +300,5 @@ export default function Avatar({
 
 /** One always-rendered copy of the avatar's gradients and clip paths, so hidden avatars can still reference them. */
 export function AvatarDefs() {
-  return <div aria-hidden style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}><Avatar pose="wave" float={false} title="" /></div>;
+  return <div aria-hidden style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden' }}>{(Object.keys(OUTFITS) as Outfit[]).map((o) => <Avatar key={o} pose="wave" float={false} outfit={o} title="" />)}</div>;
 }

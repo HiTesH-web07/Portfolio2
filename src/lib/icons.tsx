@@ -28,5 +28,5 @@ export function TechIcon({ name, size = 22, dark = false }: { name: string; size
     return <svg role="img" aria-label={name} viewBox="0 0 24 24" width={size} height={size} fill={fill}><path d={b.path} /></svg>;
   }
   const L = LINE[name] ?? Code2;
-  return <L aria-label={name} size={size} className={dark ? 'text-[#A6E35A]' : 'text-[#356A18]'} />;
+  return <L aria-label={name} size={size} className={dark ? 'text-n-accentdark' : 'text-n-accent'} />;
 }

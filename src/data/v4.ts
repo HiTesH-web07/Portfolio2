@@ -79,13 +79,13 @@ export const journey4: Chapter4[] = [
 
 export const experience4 = [
   {
-    id: 'viasocket', company: 'viaSocket', parent: 'Walkover Web Solution', role: 'Integration Solution Engineer', when: 'May 2026 – Present', where: 'Indore · On-site', mark: 'v',
+    id: 'viasocket', company: 'Walkover Web Solution', parent: 'Product: viaSocket', role: 'Integration Solution Engineer', when: 'May 2026 – Present', where: 'Indore · On-site', mark: 'W',
     highlights: ['Product development across React, Next.js and Node.js', 'Built and maintained 100+ API integration modules', 'OAuth 2.0, API keys, webhooks, pagination and JSON data mapping'],
     more: ['Dynamic forms with field validation and clear error handling', 'Workflow automation', 'API debugging and error handling against live endpoints', 'Collaboration with engineering, product and design teams'],
     stack: ['Next.js', 'React', 'Node.js', 'JavaScript', 'REST APIs', 'OAuth 2.0', 'Postman', 'Git'],
   },
   {
-    id: 'thinkdebug', company: 'Think Debug', parent: 'Internship · Kulies', role: 'Frontend Developer Intern', when: 'Feb 2025 – Apr 2025', where: 'Indore · On-site · Internship', mark: 't',
+    id: 'thinkdebug', company: 'Think Debug', parent: 'Internship · Product: Kulies', role: 'Frontend Developer Intern', when: 'Feb 2025 – Apr 2025', where: 'Indore · On-site · Internship', mark: 'T',
     highlights: ['Built 15+ responsive React components', 'Integrated 20+ REST APIs and improved performance by 18%', 'Fixed 30+ UI/UX bugs on the Kulies platform'],
     more: ['Six-member development team, weekly sprints and code reviews'],
     stack: ['React', 'Redux Toolkit', 'JavaScript', 'Tailwind CSS', 'Axios', 'Git'],
@@ -124,6 +124,57 @@ export const nav4 = [
   { id: 'work', label: 'Work' },
   { id: 'experience', label: 'Experience' },
   { id: 'skills', label: 'Skills' },
-  { id: 'problems', label: 'Problems' },
+  { id: 'how', label: 'How I Work' },
   { id: 'ask', label: 'Ask Hitesh' },
 ];
+
+// ---------- v5: Journey of a Builder (Hitesh's own chapter text) ----------
+export type Scene5 = 'foundation' | 'product' | 'engineering' | 'next';
+export const journey5: { id: string; num: string; title: string; org: string; role: string; kind: string; story: string[]; points?: string[]; scene: Scene5; pose: Pose; expression: 'smile' | 'joy' | 'focus' | 'curious' | 'calm'; outfit: 'student' | 'intern' | 'engineer' | 'jacket'; closing?: string }[] = [
+  {
+    id: 'foundation', num: '01', title: 'The Foundation', org: 'Medi-Caps University', role: 'B.Tech in Computer Science', kind: 'Education',
+    scene: 'foundation', pose: 'laptop', expression: 'focus', outfit: 'student',
+    story: ['I started with the fundamentals: programming, C and C++, and problem-solving. As I explored web development, I became interested in turning ideas into applications through frontend technologies and modern web frameworks.'],
+  },
+  {
+    id: 'product', num: '02', title: 'My First Real Product', org: 'Think Debug · Kulies', role: 'Frontend Developer Intern', kind: 'Internship',
+    scene: 'product', pose: 'laptop', expression: 'smile', outfit: 'intern',
+    story: ['At Think Debug, I got my first professional experience working on a real product: Kulies, a B2B2C e-commerce platform. I contributed React components, integrated REST APIs and worked on improving the user experience alongside a development team.'],
+    points: ['Responsive React components', 'REST APIs integrated with Axios', 'Redux Toolkit and Context API', 'UI/UX fixes and performance improvements'],
+  },
+  {
+    id: 'engineering', num: '03', title: 'Building the Product', org: 'Walkover Web Solution · viaSocket', role: 'Integration Solution Engineer', kind: 'Current role',
+    scene: 'engineering', pose: 'think', expression: 'focus', outfit: 'engineer',
+    story: [
+      'At Walkover, working on viaSocket, I contribute to the development of the product by building new features and developing integration capabilities for its no-code automation platform.',
+      'I develop and maintain integration modules, build API-driven functionality, implement OAuth 2.0 and API-key authentication, and work with webhooks, pagination, data mapping and dynamic input fields. I also debug API requests, responses and integration behaviour so features work reliably.',
+    ],
+    points: ['Product features and integration modules', 'OAuth 2.0 and API-key authentication flows', 'Webhooks, pagination, data mapping, dynamic fields', 'Debugging API requests and responses'],
+  },
+  {
+    id: 'next', num: '04', title: "Building What's Next", org: 'AI · Automation · Product Engineering', role: 'Exploring', kind: 'Now',
+    scene: 'next', pose: 'explore', expression: 'curious', outfit: 'jacket',
+    story: ["I'm increasingly interested in the intersection of software engineering and AI. I explore LLM-powered applications, AI agents and intelligent automation, while building products that solve practical problems."],
+    closing: 'Still learning. Still building. Just getting started.',
+  },
+];
+
+// ---------- v5: How I Work ----------
+export const howIWork = {
+  title: 'Good engineering is more than writing code.',
+  intro: 'I care about understanding problems, taking ownership of outcomes and building things that work reliably.',
+  qualities: [
+    { n: '01', name: 'Ownership', line: 'I take responsibility for understanding a task, working through challenges and following it through to a reliable outcome.',
+      examples: ['Following an integration from a failing request to a fix verified against the live API', 'Testing edge cases before handing work over'] },
+    { n: '02', name: 'Problem Solving', line: "I enjoy breaking down complex problems, understanding what's happening beneath the surface and finding practical solutions.",
+      examples: ['Regular DSA practice in C++ and LeetCode challenges', 'Root-causing 4xx/5xx errors and pagination mismatches'] },
+    { n: '03', name: 'Collaboration', line: 'Building good products requires sharing context, communicating clearly and working towards a common goal.',
+      examples: ['A six-member team with weekly sprints and code reviews at Think Debug', 'Working with engineering, product and design at Walkover'] },
+    { n: '04', name: 'Adaptability', line: 'I enjoy learning new technologies and adapting to different challenges as products and requirements evolve.',
+      examples: ['Moving from frontend work into API and integration engineering', 'Learning OAuth 2.0, webhooks and how real APIs behave'] },
+    { n: '05', name: 'Attention to Detail', line: 'I care about the details that make software reliable, from validation and error handling to consistent user experiences.',
+      examples: ['Dynamic input forms with field validation and clear error handling', 'Fixing 30+ UI/UX defects on Kulies'] },
+    { n: '06', name: 'Continuous Learning', line: 'Becoming a better engineer means staying curious, experimenting and continuously improving how I build.',
+      examples: ['IBM courses in Generative AI and Agentic AI (2026)', 'Building my own products: Cairn, Meeting-to-Action Closer, SENSAI'] },
+  ],
+};

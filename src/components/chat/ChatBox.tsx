@@ -8,7 +8,7 @@ import { askSuggestions, projects } from '@/data/content';
 
 export function Face({ size = 40 }: { size?: number }) {
   return (
-    <span className="grid shrink-0 place-items-center overflow-hidden rounded-full bg-[#D9E4DC]" style={{ width: size, height: size }}>
+    <span className="grid shrink-0 place-items-center overflow-hidden rounded-full bg-n-accentsoft" style={{ width: size, height: size }}>
       <Avatar pose="wave" expression="smile" crop float={false} className="h-full w-full" title="Ask Hitesh assistant" />
     </span>
   );
@@ -52,7 +52,7 @@ export default function ChatBox({ className = '', onClose, autoFocus = false, on
             <motion.div key={m.id} layout initial={{ opacity: 0, y: 14, scale: 0.98 }} animate={{ opacity: 1, y: 0, scale: 1 }} transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }} className={`flex gap-2.5 ${m.role === 'user' ? 'justify-end' : ''}`}>
               {m.role === 'assistant' && <Face size={30} />}
               <div className="max-w-[85%]">
-                <div className={`whitespace-pre-line rounded-3xl px-4 py-3 text-[15px] leading-relaxed ${m.role === 'user' ? 'rounded-br-lg bg-[#2D3A2E] text-[#F1EBDD]' : m.error ? 'rounded-tl-lg border border-[#C2553D]/40 bg-[#C2553D]/10' : 'rounded-tl-lg border border-line bg-paper'}`}>
+                <div className={`whitespace-pre-line rounded-3xl px-4 py-3 text-[15px] leading-relaxed ${m.role === 'user' ? 'rounded-br-lg bg-n-ink text-n-fg' : m.error ? 'rounded-tl-lg border border-[#C2553D]/40 bg-[#C2553D]/10' : 'rounded-tl-lg border border-line bg-paper'}`}>
                   <span className="sr-only">{m.role === 'user' ? 'You: ' : 'Assistant: '}</span>{m.content}
                 </div>
                 {m.projects && m.projects.length > 0 && (
