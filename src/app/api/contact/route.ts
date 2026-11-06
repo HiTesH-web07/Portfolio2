@@ -8,14 +8,14 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // Settings (environment variables, never in code). Either:
-//   CONTACT_WEBHOOK_URL (+ CONTACT_WEBHOOK_SECRET) — a viaSocket flow that sends the email via Gmail
+//   WEB3FORMS_ACCESS_KEY — Web3Forms delivers the message to the inbox the key was created for
 // or:
 //   SMTP_HOST, SMTP_PORT (default 465), SMTP_USER, SMTP_PASS  — e.g. Gmail with an app password
 //   CONTACT_TO (default: Hitesh's email), SMTP_FROM (default: SMTP_USER)
 const TO = process.env.CONTACT_TO || 'hiteshahuja633@gmail.com';
-const hook = () => process.env.CONTACT_WEBHOOK_URL;
+const w3f = () => process.env.WEB3FORMS_ACCESS_KEY;
 const smtp = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS);
-const configured = () => Boolean(hook() || smtp());
+const configured = () => Boolean(w3f() || smtp());
 const GENERIC = 'Your message could not be sent right now. Please try again in a moment.';
 const recent = new Map<string, number>(); // duplicate guard: same content within 10 minutes
 
@@ -24,7 +24,7 @@ const oneLine = (s: string) => s.replace(/[\r\n]+/g, ' ').trim();
 
 export async function POST(req: Request) {
   if (!configured()) {
-    console.error('contact: no CONTACT_WEBHOOK_URL or SMTP settings');
+    console.error('contact: no WEB3FORMS_ACCESS_KEY or SMTP settings');
     return NextResponse.json({ error: GENERIC }, { status: 503 });
   }
   const ip = (req.headers.get('x-forwarded-for') || '').split(',')[0].trim() || 'anon';
@@ -44,15 +44,21 @@ export async function POST(req: Request) {
   if (recent.has(key)) return NextResponse.json({ ok: true, duplicate: true });
 
   try {
-    if (hook()) {
-      const r = await fetch(hook()!, {
+    if (w3f()) {
+      const r = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ secret: process.env.CONTACT_WEBHOOK_SECRET || '', name, email, subject, message, to: TO }),
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: w3f(),
+          subject: `Portfolio: ${subject || `Message from ${name}`}`.slice(0, 180),
+          from_name: 'Hitesh Ahuja Portfolio',
+          replyto: email,
+          name, email, 'Subject (from form)': subject || '(none)', message,
+        }),
         signal: AbortSignal.timeout(20_000),
       });
-      const j = await r.json().catch(() => ({} as { ok?: boolean }));
-      if (!r.ok || j.ok !== true) throw new Error(`webhook ${r.status} ${JSON.stringify(j).slice(0, 200)}`);
+      const j = (await r.json().catch(() => ({}))) as { success?: boolean; message?: string };
+      if (!r.ok || j.success !== true) throw new Error(`web3forms ${r.status} ${String(j.message ?? '').slice(0, 200)}`);
       recent.set(key, now);
       return NextResponse.json({ ok: true });
     }
