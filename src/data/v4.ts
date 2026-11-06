@@ -23,31 +23,22 @@ export type WorkItem = {
 
 export const work: WorkItem[] = [
   {
-    id: 'meeting-to-action', name: 'Meeting-to-Action Closer', badge: 'Featured',
-    description: 'An AI-powered application that converts meeting discussions into structured, trackable tasks.',
-    problem: 'Decisions made in meetings get lost between the transcript and the task tracker.',
-    implemented: ['Meeting transcript processing with AI', 'Asana task creation, Slack summaries and status updates', 'Google Calendar and Fireflies integrations'],
-    more: ['Role-based access control', 'Duplicate-safe database writes', '47 automated tests'],
-    stack: ['Next.js', 'React', 'TypeScript', 'Prisma', 'PostgreSQL', 'REST APIs'],
-    image: '/projects/mtac.webp', url: 'meeting-to-action-closer.embarko.app', live: 'https://meeting-to-action-closer.embarko.app', code: null,
-  },
-  {
-    id: 'sensai', name: 'SENSAI · AI Career Coach', badge: 'Personal project',
-    description: 'An AI-powered career preparation application.',
-    problem: 'Job seekers need focused help with resumes and interview preparation.',
-    implemented: ['AI-powered career guidance with the Gemini API', 'Resume and interview preparation features', 'Clerk authentication'],
-    more: ['Prisma and PostgreSQL data layer', 'Modular API architecture: one REST route per feature', '35% faster load after the refactor'],
-    stack: ['Next.js', 'React', 'Gemini API', 'Clerk', 'Prisma', 'PostgreSQL'],
-    image: null, live: null, code: null, note: 'Screenshot to be added',
-  },
-  {
     id: 'cairn', name: 'Cairn', badge: 'Independent project',
     description: 'A team app that measures the value of work, not the volume: a weekly ranked Priority Stack, quality ratings and disputes, with no activity tracking.',
     problem: 'Teams often reward whoever looks busiest, not whoever finished the most important work well.',
     implemented: ['Express REST API on Node.js with SQLite', 'Single-page frontend in vanilla JavaScript, light and dark themes', 'Ask Cairn: a Gemini helper with a prompt-injection guard'],
     more: ['Slack and Keka through viaSocket, phone alerts through M91', 'Password resets by email', '27 automated API tests'],
     stack: ['Node.js', 'Express', 'SQLite', 'JavaScript', 'Gemini API'],
-    image: '/projects/cairn.webp', url: 'proof-of-impact.embarko.app', live: 'https://proof-of-impact.embarko.app', code: 'https://github.com/HiTesH-web07/Cairn',
+    image: '/projects/cairn.webp', url: 'proof-of-impact.embarko.app', live: 'https://proof-of-impact.embarko.app', code: 'https://github.com/HiTesH-web07/Cairn'
+  },
+  {
+    id: 'meeting-to-action', name: 'Meeting-to-Action Closer', badge: 'Featured',
+    description: 'An AI-powered application that converts meeting discussions into structured, trackable tasks.',
+    problem: 'Decisions made in meetings get lost between the transcript and the task tracker.',
+    implemented: ['Meeting transcript processing with AI', 'Asana task creation, Slack summaries and status updates', 'Google Calendar and Fireflies integrations'],
+    more: ['Role-based access control', 'Duplicate-safe database writes', '47 automated tests'],
+    stack: ['Next.js', 'React', 'TypeScript', 'Prisma', 'PostgreSQL', 'REST APIs'],
+    image: '/projects/mtac.webp', url: 'meeting-to-action-closer.embarko.app', live: 'https://meeting-to-action-closer.embarko.app', code: null
   },
   {
     id: 'kulies', name: 'Kulies', badge: 'Work contribution',
@@ -56,7 +47,16 @@ export const work: WorkItem[] = [
     implemented: ['Built 15+ responsive React components', 'Integrated 20+ REST APIs with Axios; state with Redux Toolkit and Context API', 'Improved frontend performance by 18%'],
     more: ['Resolved 30+ UI/UX bugs', 'Product listing, cart, wishlist and real-time pricing', 'Six-member development team'],
     stack: ['React.js', 'Redux Toolkit', 'JavaScript', 'Tailwind CSS', 'Node.js'],
-    image: null, live: 'https://kulies.com/', code: null, note: 'Screenshot to be added',
+    image: null, live: 'https://kulies.com/', code: null, note: 'Screenshot to be added'
+  },
+  {
+    id: 'sensai', name: 'SENSAI · AI Career Coach', badge: 'Personal project',
+    description: 'An AI-powered career preparation application.',
+    problem: 'Job seekers need focused help with resumes and interview preparation.',
+    implemented: ['AI-powered career guidance with the Gemini API', 'Resume and interview preparation features', 'Clerk authentication'],
+    more: ['Prisma and PostgreSQL data layer', 'Modular API architecture: one REST route per feature', '35% faster load after the refactor'],
+    stack: ['Next.js', 'React', 'Gemini API', 'Clerk', 'Prisma', 'PostgreSQL'],
+    image: null, live: null, code: null, note: 'Screenshot to be added'
   },
 ];
 
