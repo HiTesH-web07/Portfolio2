@@ -18,8 +18,8 @@ export default function Page() {
       <Nav4 />
       <main id="main">
         <Hero4 />
-        <Work4 />
         <Journey4 />
+        <Work4 />
         <Experience4 />
         <Skills4 />
         <Problem4 />

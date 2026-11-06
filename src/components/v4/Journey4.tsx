@@ -103,7 +103,7 @@ export default function Journey4() {
   return (
     <section id="journey" ref={root} aria-labelledby="journey-title" className="bg-[#0F1D16] py-20 text-[#F4F0E6] sm:py-24">
       <div className="wrap">
-        <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#A6E35A]">03 · My journey</p>
+        <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#A6E35A]">02 · My journey</p>
         <h2 id="journey-title" className="mt-3 font-display text-4xl font-semibold tracking-[-0.035em] sm:text-5xl"><SplitWords text="The Journey of a Builder" /></h2>
         <p className="mt-4 max-w-xl text-[#F4F0E6]/65">From learning to build, to building real products, to understanding the systems behind them.</p>
 

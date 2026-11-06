@@ -98,7 +98,7 @@ export default function Work4() {
       <div className="wrap">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#356A18]">02 · Selected work</p>
+            <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#356A18]">03 · Selected work</p>
             <h2 id="work-title" className="mt-3 font-display text-4xl font-semibold tracking-[-0.035em] sm:text-5xl"><SplitWords text="Products I've worked on" /></h2>
           </div>
           <p className="max-w-xs text-sm leading-relaxed text-[#5B6259]">A few projects that show how I turn ideas into working, real-world solutions.</p>

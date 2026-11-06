@@ -120,8 +120,8 @@ export const problem4 = {
 };
 
 export const nav4 = [
-  { id: 'work', label: 'Work' },
   { id: 'journey', label: 'Journey' },
+  { id: 'work', label: 'Work' },
   { id: 'experience', label: 'Experience' },
   { id: 'skills', label: 'Skills' },
   { id: 'problems', label: 'Problems' },
