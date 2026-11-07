@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   poweredByHeader: false,
-  images: { formats: ['image/avif', 'image/webp'] },
+  // Assets in public/ are already compressed WebP; the host's on-the-fly resizer was returning 502/421.
+  images: { unoptimized: true },
   async headers() {
     return [{ source: '/(.*)', headers: [
       { key: 'X-Content-Type-Options', value: 'nosniff' },
