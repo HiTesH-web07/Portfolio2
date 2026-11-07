@@ -1,10 +1,20 @@
 'use client';
-import { useRef, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, animate, motion, useInView } from 'framer-motion';
 import { Plus, Minus } from 'lucide-react';
 import { gsap, SplitWords, useGsap } from '../ui/motion';
 import { TechIcon } from '@/lib/icons';
 import { experience4 } from '@/data/v4';
+
+type Stat = { value: number; suffix: string; label: string; note: string };
+
+function Count({ to, suffix }: { to: number; suffix: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const [n, setN] = useState(0);
+  useEffect(() => { if (!inView) return; const c = animate(0, to, { duration: 1.4, ease: [0.22, 1, 0.36, 1], onUpdate: (v) => setN(Math.round(v)) }); return () => c.stop(); }, [inView, to]);
+  return <span ref={ref}>{n.toLocaleString('en-US')}{suffix}</span>;
+}
 
 function Entry({ e }: { e: (typeof experience4)[number] }) {
   const [more, setMore] = useState(false);
@@ -19,13 +29,26 @@ function Entry({ e }: { e: (typeof experience4)[number] }) {
           </div>
           <div className="lg:col-span-5">
             <div className="flex flex-wrap items-baseline justify-between gap-2"><p className="font-semibold">{e.role}</p><p className="font-mono text-xs text-n-muted">{e.when}</p></div>
+            {'summary' in e && <p className="mt-3 text-[15px] leading-relaxed text-n-muted">{e.summary}</p>}
+            {'stats' in e && (
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                {(e.stats as Stat[]).map((st) => (
+                  <div key={st.label} className="rounded-2xl bg-n-ink p-4 text-n-fg">
+                    <p className="font-display text-3xl font-semibold tracking-tight text-n-accentdark"><Count to={st.value} suffix={st.suffix} /></p>
+                    <p className="mt-1 text-sm font-semibold">{st.label}</p>
+                    <p className="text-xs text-n-fgmuted">{st.note}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {'listTitle' in e && <p className="mt-5 text-[11px] font-semibold uppercase tracking-[0.16em] text-n-muted">{e.listTitle}</p>}
             <ul className="mt-3 grid gap-1.5 text-[15px] text-n-ink">
               {e.highlights.map((h) => <li key={h} className="flex gap-2.5"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-n-accent" />{h}</li>)}
               <AnimatePresence initial={false}>{more && e.more.map((h) => <motion.li key={h} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} className="flex gap-2.5 overflow-hidden"><span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-n-accent" />{h}</motion.li>)}</AnimatePresence>
             </ul>
-            <button onClick={() => setMore(!more)} aria-expanded={more} className="mt-2 inline-flex min-h-[36px] items-center gap-1 text-sm font-medium text-n-accent hover:underline">{more ? <Minus size={14} /> : <Plus size={14} />}{more ? 'Show less' : `${e.more.length} more`}</button>
+            {e.more.length > 0 && <button onClick={() => setMore(!more)} aria-expanded={more} className="mt-2 inline-flex min-h-[36px] items-center gap-1 text-sm font-medium text-n-accent hover:underline">{more ? <Minus size={14} /> : <Plus size={14} />}{more ? 'Show less' : `${e.more.length} more`}</button>}
           </div>
-          <ul className="flex flex-wrap content-start gap-1.5 lg:col-span-3" aria-label="Stack">{e.stack.map((s) => <li key={s} className="inline-flex items-center gap-1.5 rounded-full border border-n-ink/10 bg-white px-2.5 py-1 text-xs font-medium"><TechIcon name={s} size={12} />{s}</li>)}</ul>
+          <div className="lg:col-span-3"><p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-n-muted">Technology</p><ul className="flex flex-wrap content-start gap-1.5" aria-label="Technology">{e.stack.map((s) => <li key={s} className="inline-flex items-center gap-1.5 rounded-full border border-n-ink/10 bg-white px-2.5 py-1 text-xs font-medium"><TechIcon name={s} size={12} />{s}</li>)}</ul></div>
         </div>
       </div>
     </li>

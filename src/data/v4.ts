@@ -82,9 +82,22 @@ export const journey4: Chapter4[] = [
 export const experience4 = [
   {
     id: 'viasocket', company: 'Walkover Web Solution', parent: 'Product: viaSocket', role: 'Integration Solution Engineer', when: 'May 2026 – Present', where: 'Indore · On-site', mark: 'W',
-    highlights: ['Product development across React, Next.js and Node.js', 'Built and maintained 100+ API integration modules', 'OAuth 2.0, API keys, webhooks, pagination and JSON data mapping'],
-    more: ['Dynamic forms with field validation and clear error handling', 'Workflow automation', 'API debugging and error handling against live endpoints', 'Collaboration with engineering, product and design teams'],
-    stack: ['Next.js', 'React', 'Node.js', 'JavaScript', 'REST APIs', 'OAuth 2.0', 'Postman', 'Git'],
+    summary: "I contribute to the development and evolution of viaSocket, a no-code automation platform that helps businesses connect their apps and automate workflows. My work spans product feature development, frontend and backend engineering, and building integrations that expand the platform's capabilities.",
+    stats: [
+      { value: 2200, suffix: '+', label: 'SaaS applications', note: 'Connected through the viaSocket ecosystem' },
+      { value: 100, suffix: '+', label: 'Integration modules', note: 'Built and maintained by me' },
+    ],
+    listTitle: 'What I contribute to',
+    highlights: [
+      "Developing and improving viaSocket's automation platform and product features.",
+      'Building frontend functionality using React and Next.js.',
+      'Developing backend functionality using Node.js.',
+      'Expanding platform connectivity through integration modules.',
+      'Implementing authentication, webhooks, pagination and data mapping.',
+      'Debugging and collaborating with engineering, product and design teams.',
+    ],
+    more: [] as string[],
+    stack: ['React', 'Next.js', 'Node.js', 'JavaScript', 'REST APIs', 'OAuth 2.0', 'Postman'],
   },
   {
     id: 'thinkdebug', company: 'Think Debug', parent: 'Internship · Product: Kulies', role: 'Frontend Developer Intern', when: 'Feb 2025 – Apr 2025', where: 'Indore · On-site · Internship', mark: 'T',
@@ -133,7 +146,7 @@ export const nav4 = [
 
 // ---------- v5: Journey of a Builder (Hitesh's own chapter text) ----------
 export type Scene5 = 'foundation' | 'product' | 'engineering' | 'next';
-export const journey5: { id: string; num: string; title: string; org: string; role: string; kind: string; story: string[]; meta?: string; points?: string[]; scene: Scene5; pose: Pose; expression: 'smile' | 'joy' | 'focus' | 'curious' | 'calm'; outfit: 'student' | 'intern' | 'engineer' | 'jacket'; closing?: string }[] = [
+export const journey5: { id: string; num: string; title: string; org: string; role: string; kind: string; story: string[]; meta?: string; points?: string[]; scene: Scene5; pose: Pose; expression: 'smile' | 'joy' | 'focus' | 'curious' | 'calm'; outfit: 'student' | 'intern' | 'engineer' | 'jacket'; closing?: string; link?: { href: string; label: string } }[] = [
   {
     id: 'foundation', num: '01', title: 'The Foundation', org: 'Medi-Caps University', role: 'B.Tech in Computer Science', kind: 'Education',
     scene: 'foundation', pose: 'laptop', expression: 'focus', outfit: 'student',
@@ -150,11 +163,10 @@ export const journey5: { id: string; num: string; title: string; org: string; ro
     id: 'engineering', num: '03', title: 'Building the Product', org: 'Walkover Web Solution · viaSocket', role: 'Integration Solution Engineer', kind: 'Current role',
     scene: 'engineering', pose: 'think', expression: 'focus', outfit: 'engineer',
     story: [
-      'At Walkover, I work on viaSocket, where I contribute to developing and improving the product. My work spans frontend development with React, backend functionality with Node.js, and API-driven features that bring different parts of the platform together.',
-      'I build and maintain integration modules that connect viaSocket with **500+ SaaS applications**, implementing OAuth 2.0 and API-key authentication, working with webhooks, pagination and data mapping, and debugging issues across different layers of the application.',
-      'Alongside product development, I explore AI-driven engineering by building AI agents, working with AI development tools and creating Claude skills to extend capabilities and automate development workflows.',
+      'At Walkover, I work on viaSocket, building product features with React and Node.js and integration modules that connect the platform with **500+ SaaS applications**.',
+      'Alongside product work, I explore AI-driven engineering: AI agents, AI development tools and Claude skills.',
     ],
-    points: ['React frontend and Node.js backend features', 'Integration modules for 500+ SaaS applications', 'OAuth 2.0, API keys, webhooks, pagination and data mapping', 'AI agents and Claude skills for development workflows'],
+    link: { href: '#experience', label: 'See my full experience' },
   },
   {
     id: 'next', num: '04', title: "Building What's Next", org: 'AI · Automation · Product Engineering', role: 'Exploring', kind: 'Now',

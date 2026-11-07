@@ -12,6 +12,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export default function HowIWork() {
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
+  const [beat, setBeat] = useState(0);
   useEffect(() => {
     const els = Array.from(root.current?.querySelectorAll<HTMLElement>('[data-q]') ?? []);
     const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) setActive(els.indexOf(e.target as HTMLElement)); }), { rootMargin: '-45% 0px -50% 0px' });
@@ -27,25 +28,25 @@ export default function HowIWork() {
     <section id="how" ref={root} aria-labelledby="how-title" className="bg-n-bg py-20 text-n-ink sm:py-24">
       <div className="wrap grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-5">
-          <div className="lg:sticky lg:top-24">
+          <div className="lg:sticky lg:top-20">
             <p className="text-[12px] font-semibold uppercase tracking-[0.2em] text-n-accent">06 · How I work</p>
             <h2 id="how-title" className="mt-3 font-display text-4xl font-semibold leading-[1.05] tracking-[-0.035em] sm:text-5xl"><SplitWords text={howIWork.title} /></h2>
             <p className="mt-5 max-w-md leading-relaxed text-n-muted">{howIWork.intro}</p>
 
             <div className="relative mt-10 hidden overflow-hidden rounded-[1.75rem] bg-n-ink p-7 text-n-fg lg:block">
               <div aria-hidden className="absolute inset-0 bg-[radial-gradient(90%_80%_at_100%_0%,#26304A,transparent_60%)]" />
-              <div className="relative -mx-7 -mt-7 aspect-[400/220] border-b border-white/5 bg-[radial-gradient(80%_90%_at_50%_0%,#2A3358,#1A2030_70%)]">
+              <div className="relative -mx-7 -mt-7 h-[clamp(150px,25vh,220px)] border-b border-white/5 bg-[radial-gradient(80%_90%_at_50%_0%,#2A3358,#1A2030_70%)]">
                 <AnimatePresence mode="wait">
                   <motion.div key={q.n} className="absolute inset-0" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.35, ease }}>
-                    <HowArt i={active} className="h-full w-full" />
+                    <HowArt i={active} onBeat={setBeat} className="h-full w-full" />
                   </motion.div>
                 </AnimatePresence>
               </div>
               <AnimatePresence mode="wait">
                 <motion.div key={q.n} className="relative" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.35, ease }}>
-                  <p className="mt-6 flex items-baseline gap-3 text-xl font-semibold"><span className="font-mono text-sm text-n-accentdark">{q.n}</span>{q.name}<span aria-hidden className="ml-auto h-1 w-20 self-center overflow-hidden rounded-full bg-white/10"><motion.span className="block h-full rounded-full bg-n-accentdark" initial={false} animate={{ width: `${((active + 1) / howIWork.qualities.length) * 100}%` }} transition={{ duration: 0.6, ease }} /></span></p>
-                  <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-n-fgmuted">In practice</p>
-                  <ul className="mt-2 grid gap-2 text-sm text-n-fg/90">{q.examples.map((e) => <li key={e} className="flex gap-2"><ArrowUpRight size={15} className="mt-0.5 shrink-0 text-n-accentdark" />{e}</li>)}</ul>
+                  <p className="mt-5 flex items-baseline gap-3 text-xl font-semibold"><span className="font-mono text-sm text-n-accentdark">{q.n}</span>{q.name}<span aria-hidden className="ml-auto h-1 w-20 self-center overflow-hidden rounded-full bg-white/10"><motion.span className="block h-full rounded-full bg-n-accentdark" initial={false} animate={{ width: `${((active + 1) / howIWork.qualities.length) * 100}%` }} transition={{ duration: 0.6, ease }} /></span></p>
+                  <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-n-fgmuted">In practice</p>
+                  <ul className="mt-2 grid gap-1.5 text-sm">{q.examples.map((e, k) => <li key={e} className={`flex gap-2 rounded-lg px-2 py-1.5 transition-colors duration-300 ${k === beat ? 'bg-white/[0.07] text-n-fg' : 'text-n-fg/55'}`}><ArrowUpRight size={15} className={`mt-0.5 shrink-0 ${k === beat ? 'text-n-accentdark' : 'text-n-fg/40'}`} />{e}</li>)}</ul>
                 </motion.div>
               </AnimatePresence>
             </div>

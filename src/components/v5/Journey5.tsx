@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import { GraduationCap, Briefcase, Building2, Sparkles, Check } from 'lucide-react';
+import { GraduationCap, Briefcase, Building2, Sparkles, Check, ArrowRight } from 'lucide-react';
 import { gsap, SplitWords, useGsap } from '../ui/motion';
 import { journey5, type Scene5 } from '@/data/v4';
 
@@ -94,6 +94,7 @@ export default function Journey5() {
                     {c.story.map((p, k) => <p key={k} data-in className="mt-4 leading-relaxed text-n-muted">{p.split(/\*\*(.+?)\*\*/g).map((t, j) => (j % 2 ? <strong key={j} className="font-semibold text-n-ink">{t}</strong> : t))}</p>)}
                     {c.meta && <p data-in className="mt-4 font-semibold text-n-ink">{c.meta}</p>}
                     {c.points && <ul data-in className="mt-4 grid gap-1.5 text-sm">{c.points.map((p) => <li key={p} className="flex gap-2"><Check size={15} className="mt-0.5 shrink-0 text-n-accent" />{p}</li>)}</ul>}
+                    {c.link && <a data-in href={c.link.href} className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-n-accent hover:underline">{c.link.label} <ArrowRight size={15} /></a>}
                     {c.closing && <p data-in className="mt-6 text-xl font-semibold tracking-tight text-n-ink">{c.closing}</p>}
                   </div>
                 </li>
