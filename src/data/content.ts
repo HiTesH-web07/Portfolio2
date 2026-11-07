@@ -157,13 +157,13 @@ export const projects: Project[] = [
     contribution:
       'Built it end to end: product idea, scoring rules, backend, frontend, design system, AI helper, integrations, tests and deployment.',
     highlights: [
-      'I built the backend: a REST API on Node.js and Express with SQLite, covering people, weekly priorities, quality ratings and disputes.',
-      'I built the frontend from scratch in vanilla JavaScript: a single-page app with light and dark themes, reduced-motion support and an accessibility contrast check on every screen.',
-      'I built Ask Cairn, a Gemini-powered helper with a prompt-injection guard and per-user hourly limits. It explains and drafts, but never scores anyone.',
+      'I built it as a full-stack Next.js app: React pages for every screen and a REST API on Next.js route handlers (Node.js runtime) with SQLite, covering people, weekly priorities, quality ratings and disputes.',
+      'I built the frontend in React with the Next.js App Router: light and dark themes, reduced-motion support and an accessibility contrast check on every screen.',
+      'I built Ask Cairn, an AI chatbot powered by Gemini, with a prompt-injection guard and per-user hourly limits. It explains your week and score from your own data, but never scores anyone.',
       'I connected Slack and Keka through viaSocket, added phone alerts through M91 and built password resets by email.',
       'I wrote 27 automated API tests.',
     ],
-    stack: ['Node.js', 'Express', 'SQLite', 'JavaScript', 'Gemini API', 'viaSocket'],
+    stack: ['Next.js', 'React', 'Node.js', 'SQLite', 'Gemini API', 'viaSocket'],
     live: 'https://proof-of-impact.embarko.app',
     code: 'https://github.com/HiTesH-web07/Cairn',
     image: '/projects/cairn.webp',
@@ -443,11 +443,11 @@ export const caseStudies: Record<string, { label: 'Independent project' | 'Perso
     label: 'Independent project',
     gap: 'Teams often reward whoever looks busiest. Hours and activity counts say little about whether the most important work got done well.',
     arch: [
-      { layer: 'Interface', items: ['Single-page app', 'Vanilla JavaScript', 'Light and dark themes'] },
-      { layer: 'API', items: ['Node.js + Express', 'REST endpoints', 'Auth and roles'] },
+      { layer: 'Interface', items: ['Next.js App Router', 'React components', 'Light and dark themes'] },
+      { layer: 'API', items: ['Next.js route handlers on Node.js', 'REST endpoints', 'Auth and roles'] },
       { layer: 'Data', items: ['SQLite', 'People, priorities, ratings, disputes'] },
     ],
-    side: { label: 'Connected services', items: ['Gemini (Ask Cairn)', 'Slack and Keka via viaSocket', 'M91 phone alerts', 'Email resets'] },
+    side: { label: 'Connected services', items: ['Gemini (Ask Cairn chatbot)', 'Slack and Keka via viaSocket', 'M91 phone alerts', 'Email resets'] },
   },
   'meeting-to-action': {
     label: 'Independent project',
@@ -578,7 +578,7 @@ export const milestones: { id: string; numeral: string; kind: 'Education' | 'Emp
 ];
 
 export const featuredWork: { id: string; pitch: string; url?: string }[] = [
-  { id: 'cairn', pitch: 'A weekly ranked Priority Stack, quality ratings and disputes, with no activity tracking. Ask Cairn, a Gemini helper, explains but never scores.', url: 'proof-of-impact.embarko.app' },
+  { id: 'cairn', pitch: 'A weekly ranked Priority Stack, quality ratings and disputes, with no activity tracking. Ask Cairn, a Gemini chatbot, explains but never scores. Built with Next.js, React, Node.js and SQLite.', url: 'proof-of-impact.embarko.app' },
   { id: 'meeting-to-action', pitch: 'Turns meeting transcripts into Asana tasks with AI and posts summaries to Slack. Owners update status from Slack and it syncs back.', url: 'meeting-to-action-closer.embarko.app' },
   { id: 'sensai', pitch: 'Resume and interview-prep guidance from the Gemini API, with Clerk authentication and PostgreSQL through Prisma.' },
 ];
