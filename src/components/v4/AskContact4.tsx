@@ -2,7 +2,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Sparkles, ShieldCheck } from 'lucide-react';
-import { Face } from '../avatar/Portrait';
+import Image from 'next/image';
 import ChatBox from '../chat/ChatBox';
 import { SplitWords } from '../ui/motion';
 
@@ -21,13 +21,13 @@ export default function AskContact4() {
             <li className="flex gap-3"><Sparkles size={17} className="mt-0.5 shrink-0 text-n-accentdark" />An AI assistant, not Hitesh in person. It answers using my verified resume and projects.</li>
             <li className="flex gap-3"><ShieldCheck size={17} className="mt-0.5 shrink-0 text-n-accentdark" />It does not invent experience or numbers. If it does not know something, it says so.</li>
           </ul>
-          <motion.div className="relative mt-10 flex items-center gap-4 self-start" initial={{ y: 30, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
-            <span className="relative">
-              <span aria-hidden className="absolute -inset-1.5 rounded-full bg-[conic-gradient(from_0deg,#4A5FF0,#8EA0FF,#4A5FF0)] opacity-70 blur-[2px]" />
-              <Face size={88} className="relative ring-4 ring-n-ink" />
-              <motion.span aria-hidden className="absolute -bottom-1 -right-2 grid h-9 w-9 place-items-center rounded-full bg-white text-lg shadow-lift" initial={{ scale: 0 }} animate={inView ? { scale: 1 } : {}} transition={{ delay: 0.5, type: 'spring', stiffness: 300, damping: 16 }}><span className="hand-wave inline-block">👋</span></motion.span>
-            </span>
-            <span className="text-sm text-n-fgmuted"><span className="block font-medium text-n-fg">Hitesh Ahuja</span>Full-Stack Developer · Indore</span>
+          <motion.div className="relative mt-10 w-full max-w-[34rem] lg:mt-auto lg:pt-10" initial={{ y: 30, opacity: 0 }} animate={inView ? { y: 0, opacity: 1 } : {}} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}>
+            <div aria-hidden className="absolute inset-x-[10%] bottom-0 top-[20%] rounded-full bg-n-accent/25 blur-3xl" />
+            <motion.div className="relative aspect-[1256/722] [mask-image:linear-gradient(to_bottom,black_86%,transparent)]" animate={{ y: [0, -6, 0] }} transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}>
+              <Image src="/avatar/ask-hitesh.webp" alt="Hitesh at his laptop, gesturing as if explaining something" fill sizes="(min-width: 1024px) 34rem, 100vw" className="object-contain" />
+              {/* soft pulse over the sparkle bubble in the illustration */}
+              <motion.span aria-hidden className="absolute left-[11%] top-[13%] h-[30%] w-[22%] rounded-full bg-[#8EA0FF]/25 blur-xl" animate={{ opacity: [0.2, 0.8, 0.2], scale: [0.9, 1.08, 0.9] }} transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }} />
+            </motion.div>
           </motion.div>
         </div>
 
