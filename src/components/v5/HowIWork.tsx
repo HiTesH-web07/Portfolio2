@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
-const ICONS = [ShieldCheck, Puzzle, Users, Shuffle, ScanSearch, Sprout];
-import { ShieldCheck, Puzzle, Users, Shuffle, ScanSearch, Sprout } from 'lucide-react';
+import HowArt from './HowArt';
 import { gsap, SplitWords, useGsap } from '../ui/motion';
 import { howIWork } from '@/data/v4';
 
@@ -35,25 +34,16 @@ export default function HowIWork() {
 
             <div className="relative mt-10 hidden overflow-hidden rounded-[1.75rem] bg-n-ink p-7 text-n-fg lg:block">
               <div aria-hidden className="absolute inset-0 bg-[radial-gradient(90%_80%_at_100%_0%,#26304A,transparent_60%)]" />
-              <div className="relative flex items-start justify-between gap-4">
-                <div className="relative h-[4.5rem] overflow-hidden">
-                  <AnimatePresence mode="popLayout" initial={false}>
-                    <motion.span key={q.n} initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '-100%' }} transition={{ duration: 0.5, ease }} className="block font-display text-7xl font-semibold leading-none text-n-accentdark">{q.n}</motion.span>
-                  </AnimatePresence>
-                </div>
-                <div className="relative grid h-[76px] w-[76px] shrink-0 place-items-center">
-                  <svg viewBox="0 0 76 76" className="absolute inset-0 -rotate-90" aria-hidden>
-                    <circle cx="38" cy="38" r="34" stroke="#2B3245" strokeWidth="3" fill="none" />
-                    <motion.circle key={q.n} cx="38" cy="38" r="34" stroke="#8EA0FF" strokeWidth="3" fill="none" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: (active + 1) / howIWork.qualities.length }} transition={{ duration: 0.7, ease }} />
-                  </svg>
-                  <AnimatePresence mode="wait">
-                    {(() => { const I = ICONS[active]; return <motion.span key={q.n} initial={{ scale: 0.4, rotate: -30, opacity: 0 }} animate={{ scale: 1, rotate: 0, opacity: 1 }} exit={{ scale: 0.4, rotate: 30, opacity: 0 }} transition={{ type: 'spring', stiffness: 260, damping: 18 }} className="grid h-12 w-12 place-items-center rounded-full bg-n-accent text-white"><I size={22} /></motion.span>; })()}
-                  </AnimatePresence>
-                </div>
+              <div className="relative -mx-7 -mt-7 aspect-[400/220] border-b border-white/5 bg-[radial-gradient(80%_90%_at_50%_0%,#2A3358,#1A2030_70%)]">
+                <AnimatePresence mode="wait">
+                  <motion.div key={q.n} className="absolute inset-0" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} transition={{ duration: 0.35, ease }}>
+                    <HowArt i={active} className="h-full w-full" />
+                  </motion.div>
+                </AnimatePresence>
               </div>
               <AnimatePresence mode="wait">
                 <motion.div key={q.n} className="relative" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: 0.35, ease }}>
-                  <p className="mt-4 text-xl font-semibold">{q.name}</p>
+                  <p className="mt-6 flex items-baseline gap-3 text-xl font-semibold"><span className="font-mono text-sm text-n-accentdark">{q.n}</span>{q.name}<span aria-hidden className="ml-auto h-1 w-20 self-center overflow-hidden rounded-full bg-white/10"><motion.span className="block h-full rounded-full bg-n-accentdark" initial={false} animate={{ width: `${((active + 1) / howIWork.qualities.length) * 100}%` }} transition={{ duration: 0.6, ease }} /></span></p>
                   <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.16em] text-n-fgmuted">In practice</p>
                   <ul className="mt-2 grid gap-2 text-sm text-n-fg/90">{q.examples.map((e) => <li key={e} className="flex gap-2"><ArrowUpRight size={15} className="mt-0.5 shrink-0 text-n-accentdark" />{e}</li>)}</ul>
                 </motion.div>
@@ -70,6 +60,7 @@ export default function HowIWork() {
                 <div>
                   <h3 className="font-display text-3xl font-semibold tracking-[-0.03em] transition-transform duration-500 group-hover:translate-x-1 sm:text-[2.6rem] sm:leading-[1.05]">{x.name}</h3>
                   <p className="mt-3 max-w-xl leading-relaxed text-n-muted">{x.line}</p>
+                  <div className="mt-5 overflow-hidden rounded-2xl bg-[radial-gradient(80%_90%_at_50%_0%,#2A3358,#1A2030_70%)] lg:hidden"><HowArt i={i} className="h-auto w-full" /></div>
                   <ul className="mt-4 grid gap-1.5 text-sm text-n-ink/85 lg:hidden">{x.examples.map((e) => <li key={e} className="flex gap-2"><ArrowUpRight size={15} className="mt-0.5 shrink-0 text-n-accent" />{e}</li>)}</ul>
                 </div>
               </div>
