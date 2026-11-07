@@ -150,10 +150,11 @@ export const journey5: { id: string; num: string; title: string; org: string; ro
     id: 'engineering', num: '03', title: 'Building the Product', org: 'Walkover Web Solution · viaSocket', role: 'Integration Solution Engineer', kind: 'Current role',
     scene: 'engineering', pose: 'think', expression: 'focus', outfit: 'engineer',
     story: [
-      'At Walkover, working on viaSocket, I contribute to the development of the product by building new features and developing integration capabilities for its no-code automation platform.',
-      'I develop and maintain integration modules, build API-driven functionality, implement OAuth 2.0 and API-key authentication, and work with webhooks, pagination, data mapping and dynamic input fields. I also debug API requests, responses and integration behaviour so features work reliably.',
+      'At Walkover, I work on viaSocket, where I contribute to developing and improving the product. My work spans frontend development with React, backend functionality with Node.js, and API-driven features that bring different parts of the platform together.',
+      'I build and maintain integration modules that connect viaSocket with **500+ SaaS applications**, implementing OAuth 2.0 and API-key authentication, working with webhooks, pagination and data mapping, and debugging issues across different layers of the application.',
+      'Alongside product development, I explore AI-driven engineering by building AI agents, working with AI development tools and creating Claude skills to extend capabilities and automate development workflows.',
     ],
-    points: ['Product features and integration modules', 'OAuth 2.0 and API-key authentication flows', 'Webhooks, pagination, data mapping, dynamic fields', 'Debugging API requests and responses'],
+    points: ['React frontend and Node.js backend features', 'Integration modules for 500+ SaaS applications', 'OAuth 2.0, API keys, webhooks, pagination and data mapping', 'AI agents and Claude skills for development workflows'],
   },
   {
     id: 'next', num: '04', title: "Building What's Next", org: 'AI · Automation · Product Engineering', role: 'Exploring', kind: 'Now',

@@ -94,6 +94,8 @@ export const experience = [
       'Tested APIs against live endpoints and root-caused 4xx/5xx errors and pagination mismatches.',
       'Wrote technical documentation and worked with senior engineers, Product and Design through Git, pull requests and code reviews.',
       'Use AI coding tools to move faster, and test and review every line of AI-assisted code before handoff.',
+      'Build and maintain integration modules that connect viaSocket with 500+ SaaS applications.',
+      'Explore AI-driven engineering: building AI agents, working with AI development tools and creating Claude skills to extend capabilities and automate development workflows.',
     ],
     stack: ['Next.js', 'React', 'Node.js', 'Automation', 'OAuth 2.0', 'Webhooks'],
   },
