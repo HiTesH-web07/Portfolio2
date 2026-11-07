@@ -178,7 +178,7 @@ export const projects: Project[] = [
     problem:
       'Decisions made in meetings get lost between the transcript and the task tracker, and nobody follows up.',
     solution:
-      'The app reads meeting transcripts, uses AI to turn decisions into structured Asana tasks and posts summaries to Slack. Task owners update status from Slack and it syncs back to Asana.',
+      'The app reads meeting transcripts, and an AI agent decides which items are real decisions, who owns each one and when it is due, then creates structured Asana tasks and posts summaries to Slack. When an owner or deadline is unclear, it asks the person involved in Slack instead of guessing. Task owners update status from Slack and it syncs back to Asana.',
     contribution:
       'Built, deployed and tested it end to end: UI, API, database and every integration.',
     highlights: [

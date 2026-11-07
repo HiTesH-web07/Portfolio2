@@ -29,28 +29,29 @@ export const work: WorkItem[] = [
     id: 'cairn', name: 'Cairn', badge: 'Full-stack project',
     description: 'A team app that measures the value of work, not the volume: a weekly ranked Priority Stack, quality ratings and disputes, with no activity tracking.',
     problem: 'Teams often reward whoever looks busiest, not whoever finished the most important work well.',
-    implemented: ['Express REST API on Node.js with SQLite', 'Single-page frontend in vanilla JavaScript, light and dark themes', 'Ask Cairn: a Gemini helper with a prompt-injection guard'],
+    implemented: ['Express REST API on Node.js with SQLite', 'Single-page frontend in vanilla JavaScript, light and dark themes', 'Ask Cairn: an AI chatbot (Gemini) that answers questions about your week, score and team, grounded in your own data, with a prompt-injection guard and rate limits'],
     more: ['Slack and Keka through viaSocket, phone alerts through M91', 'Password resets by email', '27 automated API tests'],
     stack: ['Node.js', 'Express', 'SQLite', 'JavaScript', 'Gemini API'],
     layers: [
       { label: 'Frontend', items: ['JavaScript', 'HTML', 'CSS'] },
       { label: 'Backend', items: ['Node.js', 'Express', 'REST APIs'] },
       { label: 'Database', items: ['SQLite'] },
-      { label: 'AI & integrations', items: ['Gemini API', 'viaSocket', 'Slack'] },
+      { label: 'AI chatbot & integrations', items: ['Gemini API', 'viaSocket', 'Slack'] },
     ],
     image: '/projects/cairn.webp', url: 'proof-of-impact.embarko.app', live: 'https://proof-of-impact.embarko.app', code: 'https://github.com/HiTesH-web07/Cairn'
   },
   {
     id: 'meeting-to-action', name: 'Meeting-to-Action Closer', badge: 'Full-stack project',
-    description: 'An AI-powered application that converts meeting discussions into structured, trackable tasks.',
+    description: 'An agentic AI application that turns meeting discussions into structured, trackable tasks. It decides what was agreed, who owns it and when it is due, and when something is unclear it asks the person involved instead of guessing.',
     problem: 'Decisions made in meetings get lost between the transcript and the task tracker.',
-    implemented: ['Meeting transcript processing with AI', 'Asana task creation, Slack summaries and status updates', 'Google Calendar and Fireflies integrations'],
+    implemented: ['Agentic decision-making: an AI agent reads the transcript and decides which items are real decisions, who owns each one and the due date', 'Asks before it acts: when an owner or deadline is unclear, it messages the person involved in Slack and waits for their answer', 'Asana task creation, Slack summaries and status updates synced back to Asana', 'Google Calendar and Fireflies integrations'],
     more: ['Role-based access control', 'Duplicate-safe database writes', '47 automated tests'],
     stack: ['Next.js', 'React', 'TypeScript', 'Prisma', 'PostgreSQL', 'REST APIs'],
     layers: [
       { label: 'Frontend', items: ['Next.js', 'React', 'TypeScript'] },
       { label: 'Backend', items: ['Next.js', 'REST APIs', 'Prisma'] },
       { label: 'Database', items: ['PostgreSQL'] },
+      { label: 'AI agent', items: ['Agentic AI', 'Human-in-the-loop'] },
       { label: 'Integrations', items: ['Asana', 'Slack', 'Google Calendar', 'Fireflies'] },
     ],
     image: '/projects/mtac.webp', url: 'meeting-to-action-closer.embarko.app', live: 'https://meeting-to-action-closer.embarko.app', code: null
