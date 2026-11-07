@@ -1,13 +1,19 @@
 'use client';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowUp, RotateCcw, ArrowUpRight, X } from 'lucide-react';
-import { Face as PortraitFace } from '../avatar/Portrait';
+import { ArrowUp, RotateCcw, ArrowUpRight, X, Sparkles } from 'lucide-react';
 import { useChat } from './ChatContext';
 import { askSuggestions, projects } from '@/data/content';
 
+/** The assistant's mark: the site's "H" monogram with an AI sparkle, not Hitesh's photo. */
 export function Face({ size = 40 }: { size?: number }) {
-  return <PortraitFace size={size} className="ring-1 ring-black/5" />;
+  const badge = Math.max(12, Math.round(size * 0.42));
+  return (
+    <span aria-hidden className="relative inline-grid shrink-0 place-items-center rounded-full bg-gradient-to-br from-[#5B6FF5] to-[#3D52DB] font-semibold text-white shadow-[0_6px_16px_-6px_rgba(74,95,240,.7)]" style={{ width: size, height: size, fontSize: Math.round(size * 0.44) }}>
+      H
+      <span className="absolute -bottom-0.5 -right-0.5 grid place-items-center rounded-full bg-white text-[#4A5FF0] ring-2 ring-white" style={{ width: badge, height: badge }}><Sparkles size={Math.round(badge * 0.7)} /></span>
+    </span>
+  );
 }
 
 export default function ChatBox({ className = '', onClose, autoFocus = false, onOpenCase }: { className?: string; onClose?: () => void; autoFocus?: boolean; onOpenCase?: (id: string) => void }) {
