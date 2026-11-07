@@ -57,9 +57,20 @@ function Details({ w, onCase }: { w: WorkItem; onCase: () => void }) {
         </ul>
         {w.more && <button onClick={() => setMore(!more)} aria-expanded={more} className="mt-2 inline-flex min-h-[36px] items-center gap-1 text-sm font-medium text-n-accent hover:underline">{more ? <Minus size={14} /> : <Plus size={14} />}{more ? 'Show less' : `${w.more.length} more`}</button>}
       </motion.div>
-      <motion.ul variants={item} className="mt-4 flex flex-wrap gap-2" aria-label="Stack">
-        {w.stack.map((s) => <li key={s} className="inline-flex items-center gap-1.5 rounded-full border border-n-ink/10 bg-white px-2.5 py-1 text-xs font-medium"><TechIcon name={s} size={13} />{s}</li>)}
-      </motion.ul>
+      {w.layers ? (
+        <motion.dl variants={item} className="mt-5 grid gap-px overflow-hidden rounded-2xl border border-n-line bg-n-line text-sm" aria-label="Full-stack breakdown">
+          {w.layers.map((l, k) => (
+            <motion.div key={l.label} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.25 + k * 0.08, duration: 0.45, ease }} className="grid grid-cols-[7.5rem_1fr] items-center gap-3 bg-white px-3.5 py-2.5">
+              <dt className="text-xs font-semibold uppercase tracking-[0.12em] text-n-muted">{l.label}</dt>
+              <dd className="flex flex-wrap gap-1.5">{l.items.map((s) => <span key={s} className="inline-flex items-center gap-1.5 rounded-full bg-n-bg px-2.5 py-1 text-xs font-medium"><TechIcon name={s} size={13} />{s}</span>)}</dd>
+            </motion.div>
+          ))}
+        </motion.dl>
+      ) : (
+        <motion.ul variants={item} className="mt-4 flex flex-wrap gap-2" aria-label="Stack">
+          {w.stack.map((s) => <li key={s} className="inline-flex items-center gap-1.5 rounded-full border border-n-ink/10 bg-white px-2.5 py-1 text-xs font-medium"><TechIcon name={s} size={13} />{s}</li>)}
+        </motion.ul>
+      )}
       <motion.div variants={item} className="mt-6 flex flex-wrap items-center gap-3">
         {w.live && <a href={w.live} target="_blank" rel="noreferrer" className="inline-flex min-h-[44px] items-center gap-2 rounded-full bg-n-ink px-5 text-sm font-medium text-n-fg transition-colors hover:bg-n-ink2">Live demo <ArrowUpRight size={15} /><span className="sr-only">(opens in a new tab)</span></a>}
         {w.code && <a href={w.code} target="_blank" rel="noreferrer" className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-n-ink/20 px-5 text-sm font-medium hover:bg-n-ink/5"><Github size={15} />GitHub<span className="sr-only">(opens in a new tab)</span></a>}
